@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+/* Banner Section Styling */
+.banner-section {
+  
+  background: linear-gradient(256.6deg, #f7a654 -10.74%, #233c7b 64.8%);
+  color: white;
+  padding: 50px 0;
+  font-family:  system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+left-section {
+  background-color: transparent;
+  padding: 20px;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; /* Clean font stack */
+}
+
+.left-section .heading {
+  font-size: 3rem; /* Large heading size */
+  font-family: 'Montserrat', sans-serif; /* Use Montserrat */
+  font-weight: 900; /* Montserrat Black */
+  margin-bottom: 10px;
+  line-height: 1.2; /* Tighten line spacing */
+  color: white; /* White font color */
+}
+
+.left-section .subheading {
+  font-size: 1.5rem; /* Slightly smaller for subheadings */
+  font-weight: lighter; /* Use a lighter weight for contrast */
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: white; /* White font color */
+}
+
+.left-section ul {
+  list-style-type: disc; /* Use bullet points */
+  padding-left: 20px; /* Add indentation for bullets */
+  margin-bottom: 20px;
+  color: white; /* Match the white font color */
+}
+
+.left-section ul li {
+  font-size: 1.2rem; /* Slightly larger font size for list items */
+  font-weight: normal; /* Normal weight */
+  margin-bottom: 10px;
+}
+
+.left-section ul li::marker {
+  color: white; /* White bullet points */
+}
+
+.left-section .live-class {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 10px;
+  color: lightblue; /* Light blue font color for emphasis */
+}
+/* Right Section Styling */
+.right-section {
+  border-radius: 10px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  max-width: 400px; /* Set maximum width for the form */
+  margin: 0 auto; /* Center the form */
+}
+
+/* Form Title (FILL THE FORM) */
+.right-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: black;
+  text-align: center;
+}
+
+/* Live Class Details */
+.live-class-alert {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #00bcd4;
+  text-align: center;
+}
+
+/* Form Labels */
+.right-section .form-label {
+  font-weight: 600;
+  color: black;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  display: block; /* Ensure labels are block elements */
+  max-width: 90%; /* Match input width */
+  margin: 0 auto; /* Center-align labels */
+}
+
+/* Form Inputs */
+.right-section input[type="text"],
+.right-section input[type="email"],
+.right-section input[type="number"] {
+  width: 90%; /* Reduce width of input fields */
+  max-width: 300px; /* Set a maximum width */
+  padding: 10px;
+  margin: 0 auto 15px auto; /* Center the input fields and add spacing */
+  display: block; /* Block display to center-align */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Submit Button */
+.right-section .btn {
+  font-size: 1rem;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  width: 90%; /* Reduce button width */
+  max-width: 300px; /* Set a maximum width */
+  margin: 0 auto; /* Center the button */
+  display: block; /* Block display to center-align */
+  cursor: pointer;
+}
+
+.right-section .btn:hover {
+  background-color: #0056b3;
+}
+/* Transparent Background for the Row */
+.row.justify-content-around.align-items-center {
+  background-color: transparent; /* No background color */
+  padding: 20px;
+  border-radius: 10px; /* Optional: Rounded corners */
+  margin: 0;
+  border: none; /* Ensure no border is applied */
+  box-shadow: none; /* Ensure no shadow is applied */
+  outline: none; /* Remove any possible outline */
+  background-clip: padding-box; /* Prevent anti-aliasing artifacts */
+}
+
+.container {
+  background-color: transparent; /* Ensure parent has no background */
+  border: none; /* Ensure no border */
+  box-shadow: none; /* Remove any shadows */
+  outline: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent; /* Ensure no default background */
+}
+/* Transparent Background for the Row */
+
+
+
+
+.left-section {
+  background-color: transparent; /* Remove any background color */
+  border: none; /* Remove any borders */
+  box-shadow: none; /* Remove any shadow */
+  outline: none; /* Remove any outline */
+  margin: 0;
+  padding: 20px; /* Adjust as needed */
+  background-clip: padding-box; /* Prevent anti-aliasing artifacts */
+}
+
+.shadow-left {
+  display: inline-block;
+  box-shadow: -8px 0 15px rgba(0, 0, 0, 0.15); /* Left-only shadow */
+  border: none; /* Ensure no border is applied */
+}
+
+.image-container {
+  max-width: 100%; /* Ensure the image container doesn't overflow */
+  display: inline-block;
+}
+
+.custom-image {
+  max-width: 80%; /* Reduce the size of the image */
+  border-radius: 10px; /* Add rounded corners to the image */
+}
+
+.shadow-custom {
+  box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.15); /* Shadow on the left and bottom */
+  overflow: hidden; /* Ensure the shadow is contained */
+}
+
+h2 {
+  font-size: 2rem; /* Adjust the heading size */
+  font-family: 'Montserrat', sans-serif; 
+  font-weight: 600; /* Set font weight to SemiBold (600) */
+}
+
+.description-text {
+  font-size: 1rem; /* Match the style of the description text */
+  font-family: 'Arial', sans-serif; /* Use the same font as the heading */
+  line-height: 1.8; /* Improve readability */
+  color: #333; /* Darker text color */
+}
+
+p {
+  font-family: 'Montserrat', sans-serif; 
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

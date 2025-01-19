@@ -1,0 +1,95 @@
+h2, h3, h4, h5, h6 {
+    margin-top: 10px;
+    margin-bottom: 30px; /* Apply a 10px margin to all title tags */
+}
+
+body {
+    font-family: 'Verdana, sans-serif'; /* Set font for the main body */
+}
+
+.text {
+    margin: 30px 0;
+    font-family: 'Verdana, sans-serif'; /* Set font for paragraphs */
+    text-align: justify; /* Justify the paragraph text */
+
+}
+
+table .th {
+    background-color: #333; /* Dark grey */
+    color: white; /* White text */
+}
+
+.table {
+    margin: 30px;
+    width: auto; /* Allow the table to shrink */
+    max-width: 800px; /* Set maximum width for the table */
+    border-collapse: collapse;
+}
+
+table:nth-of-type(1) { /* Adjust the number if your single-column table is not the first */
+    width: 80px; /* Set a smaller width for the single-column table */
+}
+
+/* Style for multi-column tables */
+table:nth-of-type(2) { /* Adjust the number if your multi-column table is not the second */
+    width: auto; /* Allow the multi-column table to adjust */
+    max-width: 600px; /* Set a maximum width for the multi-column table */
+}
+
+th, td {
+    border: 1px solid #ccc; /* Border for cells */
+    padding: 8px; /* Padding for cells */
+    max-width: 300px; /* Set max width for cells */
+    min-width: 200px; /* Set minimum width for cells */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.th {
+    background-color: #333 !important; /* Dark grey */
+    color: white !important; /* White text */
+    max-width: 50px !important
+}
+
+.td {
+    border: 1px solid #ccc; /* Border for cells */
+    padding: 8px; /* Padding for cells */
+    max-width: 100px; /* Set max width for cells */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.example {
+    background-color: #e7e9eb;
+    padding: 15px;
+    margin: 30px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    max-width: 800px
+}
+
+.codeBlock {
+    background-color: #ffffff; /* Corrected to have a single '#' */
+    color: #000; /* Change text color to black */
+    border: 1px solid #e7e9eb; /* Add border with color */
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    margin: 20px;
+    max-width: 700px
+}
+
+.tryItButton {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.section {
+    margin-bottom: 20px; /* Add spacing between sections */
+}
