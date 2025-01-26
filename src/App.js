@@ -8,6 +8,8 @@ import Col from 'react-bootstrap/Col';
 import SQL from './SQL'; // Import the SQL component
 import SQLSelect from './SQLSelect';
 import TwoSections from './TwoSections';
+import MainSection from './MainSection';
+import Exercise from './Exercise';
 
 
 // Import Bootstrap CSS
@@ -24,8 +26,10 @@ function App() {
             <main>
               <Routes>
                 <Route path="/" element={<Home />}/>
-                <Route path="/sql" element={<TwoSections />} />
-                <Route path="/twosections" element={<TwoSections />} />
+                <Route path="/mainsection" element={<MainSection />}/>
+                <Route path="/exercise" element={<Exercise />}/>
+                <Route path="/sql" element={<MainSection />}/>
+                                <Route path="/twosections" element={<TwoSections />} />
                 <Route path="*" element={<h1>404 Not Found</h1>} />
               </Routes>
             </main>

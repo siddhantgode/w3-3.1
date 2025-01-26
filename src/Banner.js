@@ -3,9 +3,48 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 import "./Banner.css"; // Import the existing CSS file for additional custom styles
 import SimpleGrid from "./Timeline";
 import { Accordion, Container,Row, Col } from 'react-bootstrap';
+import { db } from "./firebase"; // Import Firestore
+import { collection, addDoc } from "firebase/firestore"; // Functions to interact with Firestore
+import RegistrationForm from './components/registrationForm';
+import Roadmap from './components/roadmap';
+
 
 
 const Banner = () => {
+
+  const [formData, setFormData] = useState({
+    UserName: "",
+    EmailID: "",
+    PhoneNumber: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Update form data state on input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Save form data to Firestore
+      await addDoc(collection(db, "formSubmissions"), formData);
+
+      alert("Form data saved successfully!");
+      setFormData({ UserName: "", EmailID: "", PhoneNumber: "" }); // Reset form
+    } catch (error) {
+      console.error("Error saving form data:", error);
+      alert("An error occurred while saving the form data.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -48,50 +87,60 @@ const Banner = () => {
                 (Sunday)
               </h3>
               {/* Form */}
-              <form>
-                <div className="mb-3">
-                  <label htmlFor="UserName" className="form-label">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    name="UserName"
-                    className="form-control"
-                    id="UserName"
-                    placeholder="Enter your full name"
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="EmailID" className="form-label">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    name="EmailID"
-                    className="form-control"
-                    id="EmailID"
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="PhoneNumber" className="form-label">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="PhoneNumber"
-                    className="form-control"
-                    id="PhoneNumber"
-                    placeholder="Enter your phone number"
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary w-100">
-                  Enroll Now
-                </button>
-              </form>
+              <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="UserName" className="form-label">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  name="UserName"
+                  className="form-control"
+                  id="UserName"
+                  placeholder="Enter your full name"
+                  value={formData.UserName}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="EmailID" className="form-label">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="EmailID"
+                  className="form-control"
+                  id="EmailID"
+                  placeholder="Enter your email"
+                  value={formData.EmailID}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="PhoneNumber" className="form-label">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="PhoneNumber"
+                  className="form-control"
+                  id="PhoneNumber"
+                  placeholder="Enter your phone number"
+                  value={formData.PhoneNumber}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary w-100"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Enroll Now"}
+              </button>
+            </form>
             </div>
           </div>
         </div>
@@ -180,53 +229,101 @@ const Banner = () => {
   </div>
 </section>
 
-
-
 <section
   className="d-flex justify-content-center align-items-center"
   style={{
     minHeight: "100vh", // Full viewport height
     textAlign: "center", // Center text
+    padding: "20px", // Add padding for smaller screens
+    boxSizing: "border-box", // Ensure padding doesn't affect width
+    overflowX: "hidden", // Prevent horizontal overflow
   }}
 >
-  <div>
-    <h2 className="text-center mb-4">Steps to become an Expert Data Engineer</h2>
+  <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
+    <h2 className="text-center mb-4">
+      Steps to become an Expert Data Engineer
+    </h2>
 
     {/* Wrapper for SimpleGrid */}
-    <div
-      className="d-flex justify-content-center align-items-center"
-      style={{
-        maxWidth: "1200px", // Optional: Restrict the width of the grid
-        margin: "0 auto", // Center horizontally
-      }}
-    >
-      <SimpleGrid />
-    </div>
+    <Roadmap />
   </div>
 </section>
-
    {/*<!-- description about edufulness ends here -->*/}
       </section>
       {/* New Section: Azure Data Engineering Courses end*/}
      
      {/*Why edufulness section start */}
-     <section style={{ margin: '30px 0', fontFamily: "'Roboto', sans-serif" }}>
-      <Container> 
+     <section style={{ margin: "10px 0", fontFamily: "'Roboto', sans-serif" }}>
+      <Container>
         <Row className="align-items-center">
           <Col md={6}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Why Edufulness</h2>
-            <p style={{ fontSize: '1.2rem', lineHeight: '1.5' }}>
-              Edufulness's Data Engineering is leading Project Based Career Programs that promises 100% Job Placement Support on completing the course. Here theory and practical go hand-in-hand which placing you in top companies with high salaries.
+            <h2 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>
+              Why Edufulness
+            </h2>
+            <p style={{ fontSize: "1.2rem", lineHeight: "1.5" }}>
+              Edufulness's Data Engineering is leading Project Based Career
+              Programs that promise 100% Job Placement Support on completing
+              the course. Here theory and practical go hand-in-hand, placing
+              you in top companies with high salaries.
             </p>
-            <button type="button" className="btn btn-primary whyChooseModalButton" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            {/* Button to trigger the modal */}
+            <button
+              type="button"
+              className="btn btn-primary whyChooseModalButton"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
               Enroll Now
             </button>
           </Col>
           <Col md={6}>
-            <img src="/images/about_image.png" alt="why" style={{ width: '80%', height: 'auto' }} /> 
+            <img
+              src="/images/about_image.png"
+              alt="why"
+              style={{ width: "80%", height: "auto" }}
+            />
           </Col>
         </Row>
       </Container>
+
+      {/* Bootstrap Modal */}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered modal-lg">
+          {/* Added 'modal-lg' for a larger modal */}
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Enroll Now
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              {/* RegistrationForm Component */}
+              <RegistrationForm />
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
    
     {/*Why edufulness section end */}
@@ -318,14 +415,13 @@ const Banner = () => {
         <Row className="justify-content-center">
   <Col md={4} className="text-center">
     <button
-      type="button"
-      className="btn btn-primary apply-now-btn"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-    >
-      Apply Now
-    </button>
-  </Col>
+              type="button"
+              className="btn btn-primary whyChooseModalButton"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Apply Now
+            </button>  </Col>
 </Row>
       </div>
     </section>
@@ -345,15 +441,14 @@ const Banner = () => {
               for an Advanced Programming Professional</h2>
               <Row className="justify-content-center">
   <Col md={4} className="text-center">
-    <button
-      type="button"
-      className="btn btn-primary apply-now-btn"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-    >
-      Start Learning
-    </button>
-  </Col>
+  <button
+              type="button"
+              className="btn btn-primary whyChooseModalButton"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Start Learning
+            </button>  </Col>
 </Row>
           </div>
         </div>
@@ -364,35 +459,39 @@ const Banner = () => {
     {/*Where students work start */}
     {/*Where students work start */}
     <section className="student-work-section py-5">
-    <div class="container text-center">
-      <div class="row row-cols-1">
-        <div class="col">
-          <Row>
+  <div className="container text-center">
+    <div className="row row-cols-1">
+      <div className="col">
+        <Row>
           <h1 className="text-center pb-4 fw-bold">Where do our Students work?</h1>
-          </Row>
-        </div>
-        <div class="col">
-          <img src="/images/flikart.png"/>
-        </div>
-        <div class="col">
-          <img src="/images/paypal.png"/>
-          </div>
-        <div class="col"> {/* Get Started Button */}
-    <Row className="justify-content-center">
-      <Col md={4} className="text-center">
-        <button
-          type="button"
-          className="btn btn-primary px-5 py-2"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          Get Started
-        </button>
-      </Col>
-    </Row></div>
-       
+        </Row>
+      </div>
+
+      {/* Centering the images */}
+      <div className="col d-flex justify-content-center align-items-center">
+        <img src="/images/flikart.png" alt="Flipkart" />
+      </div>
+      <div className="col d-flex justify-content-center align-items-center">
+        <img src="/images/paypal.png" alt="PayPal" />
+      </div>
+
+      {/* Get Started Button */}
+      <div className="col">
+        <Row className="justify-content-center">
+          <Col md={4} className="text-center">
+            <button
+              type="button"
+              className="btn btn-primary px-5 py-2"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Get Started
+            </button>
+          </Col>
+        </Row>
       </div>
     </div>
+  </div>
 </section>
 {/*Where studetns work end */}
 

@@ -71,7 +71,7 @@ export default function Navbar(props) {
   };
 
   const handleExerciseClick = () => {
-    navigate('/tutorials/exercise'); // Updated to match the new route structure
+    navigate('/exercise'); // Updated to match the new route structure
     handleClose();
   };
 

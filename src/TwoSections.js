@@ -181,7 +181,6 @@ return (
 {sqlCommands.map((command) => renderButton(command))}
 </div>
 
-
   {/* Right Section Container */}
   <div style={styles.rightSectionContainer}>
     {/* Main Right Section */}

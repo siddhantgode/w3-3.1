@@ -1,6 +1,21 @@
+/* Remove default margin and padding from body and html */
 html, body {
-  height: 100%;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure all elements respect the box-sizing globally */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Remove any additional padding or margin added to the main container */
+.container {
+  margin: 0;
+  padding: 0;
 }
 
 #root {
