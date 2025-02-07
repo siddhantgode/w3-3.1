@@ -83,7 +83,7 @@ const Banner = () => {
               {/* Live Class Alert */}
               <h3 className="live-class-alert text-info text-center mb-4">
                 Live Online Classes <br />
-                24-Nov-2024 10:00AM IST <br />
+                16-Feb-2025 10:00AM IST <br />
                 (Sunday)
               </h3>
               {/* Form */}
