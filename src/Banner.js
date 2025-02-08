@@ -72,7 +72,7 @@ const Banner = () => {
                 <li>Edufulness Certification</li>
               </ul>
               <h4 className="live-class">
-                Live Online Classes | 24-Nov-2024 10:00AM IST (Sunday)
+                Live Online Classes | 16-Feb-2025 10:00AM IST (Sunday)
               </h4>
             </div>
 
@@ -429,7 +429,7 @@ const Banner = () => {
  {/*Master Data Engineering section start */}
 
 <section style={{ 
-      backgroundColor: '#000957',
+      backgroundColor: '#101743',
       color: '#fff', 
       padding: '50px 0',
       textAlign: 'center' 
