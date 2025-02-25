@@ -7,6 +7,7 @@ import { db } from "./firebase"; // Import Firestore
 import { collection, addDoc } from "firebase/firestore"; // Functions to interact with Firestore
 import RegistrationForm from './components/registrationForm';
 import Roadmap from './components/roadmap';
+import SimpleAccordion from './accordian2';
 
 
 
@@ -46,12 +47,11 @@ const Banner = () => {
 
 
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(null);
 
-  const handleToggle = (index) => {
-    setActiveIndex(index === activeIndex ? -1 : index);
-  };
-
+  const handleToggle = (eventKey) => {
+    setActiveIndex(prevIndex => (prevIndex === eventKey ? null : eventKey)); // Toggle using string comparison
+};
   
 
   return (
@@ -72,7 +72,7 @@ const Banner = () => {
                 <li>Edufulness Certification</li>
               </ul>
               <h4 className="live-class">
-                Live Online Classes | 16-Feb-2025 10:00AM IST (Sunday)
+                Live Online Classes | 02-March-2025 10:00AM IST (Sunday)
               </h4>
             </div>
 
@@ -83,7 +83,7 @@ const Banner = () => {
               {/* Live Class Alert */}
               <h3 className="live-class-alert text-info text-center mb-4">
                 Live Online Classes <br />
-                16-Feb-2025 10:00AM IST <br />
+                02-March-2025 10:00AM IST <br />
                 (Sunday)
               </h3>
               {/* Form */}
@@ -429,7 +429,7 @@ const Banner = () => {
  {/*Master Data Engineering section start */}
 
 <section style={{ 
-      backgroundColor: '#101743',
+      backgroundColor: '#000957',
       color: '#fff', 
       padding: '50px 0',
       textAlign: 'center' 
@@ -532,98 +532,9 @@ const Banner = () => {
   {/*Youtube link end*/}
 
   {/*FAQ start*/}
- <section>
-      <Container>
-        <h2 className="text-center pb-4">Frequently Asked Questions</h2>
-        <Accordion defaultActiveKey={activeIndex}>
-          <Accordion.Item eventKey={0}>
-            <Accordion.Header>
-              What is Data Engineering?
-            </Accordion.Header>
-            <Accordion.Body>
-              Data engineering is the technique of designing and creating systems that can efficiently collect, store, and interpret data for analytical or operational uses. It is an aspect of data science that focuses on practical data applications.
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey={1}>
-            <Accordion.Header>
-              Who is eligible for this program?
-            </Accordion.Header>
-            <Accordion.Body>
-              Students & Working Professionals seeking an opportunity to upskill their Data Engineering proficiency for faster career growth. To keep the chances fair, we provide a PreBootcamp session for Interested students to understand how ready they are to be a Data Engineer. A Small Eligibility test is conducted right after the Pre-Bootcamp will provide you with a final ticket to be part of Bootcamp.
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey={2}>
-            <Accordion.Header>
-              I’m from a non-engineering background or New to programming. Am I eligible for this course?
-            </Accordion.Header>
-            <Accordion.Body>
-              With the objective of creating as many job opportunities for our students, we do intend to help every student who is willing to “make the extra catching up needed” in terms of understanding Business & Data Engineer. We assess this via a comprehensive PreBootcamp where you can understand how ready you are for the Bootcamp. In case you don’t make the eligibility,our mentors will charter the course aheads for you with some Edufulness Lessons
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey={3}>
-            <Accordion.Header>
-              Does this Program assure job placement?
-            </Accordion.Header>
-            <Accordion.Body>
-              This comprehensive Data Engineering program assures 100% placement support. From training to getting placed in a company, this program will support you in procuring the essential skills, provide additional training for interpersonal skill-building, hand-over industry-recognized certifications, assist you in clearing the tedious interview process, and finally fit into the job position.
-            </Accordion.Body>
-          </Accordion.Item>
-<Accordion.Item eventKey={4}>
-            <Accordion.Header>
-              Will this program provide any certification?
-            </Accordion.Header>	
-            <Accordion.Body>
-              Along with 100% job placement support, this Data Engineering Program extends an industry-recognized certification from the Edufulness. Procure the essential skills and make an extraordinary career in Data Engineering !
-            </Accordion.Body>
-          </Accordion.Item>
-<Accordion.Item eventKey={5}>
-            <Accordion.Header>
-              What is the duration & mode of the session?
-            </Accordion.Header>
-            <Accordion.Body>
-              Our comprehensive program is a 2 Months (weekday) / 3 Months (weekend) Certification Bootcamp that will facilitate live online subject-matter expert-driven classes.
-            </Accordion.Body>
-          </Accordion.Item>
-<Accordion.Item eventKey={6}>
-            <Accordion.Header>
-             How is this program different from the other programs?
-            </Accordion.Header>
-            <Accordion.Body>
-              Promising hands-on training, our program comprises live sessions + 40+ Projects, guaranteeing 50+ interviews complemented with resume reviews and a real-time project portfolio.
-            </Accordion.Body>
-          </Accordion.Item>
-<Accordion.Item eventKey={7}>
-            <Accordion.Header>
-             What tools are covered in this program?
-            </Accordion.Header>
-            <Accordion.Body>
-             The tools & technologies covered in this program include Azure Data Factory, Azure Databricks with PySpark, azure Synapse Analytics, Azure SQL Server, Blob Storage, Azure Data Lake Gen2 (ADLS), Logic APP
-            </Accordion.Body>
-          </Accordion.Item>
-<Accordion.Item eventKey={8}>
-            <Accordion.Header>
-            what if i miss any live class during course?
-            </Accordion.Header>
-            <Accordion.Body>
-             no worries. You will get alwasy recorded class immediatly after class completion. You can access it for next 3 years.
-            </Accordion.Body>
-          </Accordion.Item>
-<Accordion.Item eventKey={9}>
-            <Accordion.Header>
-              What if I am unhappy with the course?
-            </Accordion.Header>
-            <Accordion.Body>
-              Oh no! We don’t want that! We offer a 7-day money-back. If you are unhappy with the course for any reason, let us know within the first 7 days and we will refund your payment. just ping us at edufulness@gmail.com.
-            </Accordion.Body>
-          </Accordion.Item>
-
-
-          
-
-          {/* Add more accordion items here */}
-        </Accordion>
-      </Container>
-    </section>
+  <section>
+               <SimpleAccordion/>
+            </section>
 
 
 

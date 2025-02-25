@@ -1,0 +1,261 @@
+const nodemailer = require('nodemailer');
+const path = require('path');
+const fs = require('fs'); // For createReadStream
+const fsPromises = require('fs/promises'); // For promise-based file operations
+const csv = require('csv-parser'); // Install: npm install csv-parser
+const Imap = require('imap-simple'); // Install: npm install imap-simple
+const simpleParser = require('mailparser').simpleParser; // Install: npm install mailparser
+
+const logFile = 'email_log.txt'; // Name of your log file
+
+// Set up the transporter
+const transporter = nodemailer.createTransport({
+    host: 'smtp.hostinger.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'learning@edufulness.in',
+        pass: 'Edufulness@2023',
+    },
+});
+
+// List of recipients with their respective names
+const readRecipientsFromCSV = async (filePath) => {
+    const recipients = [];
+    try {
+        const results = [];
+        const stream = fs.createReadStream(filePath) // Use `fs.createReadStream` here.
+            .pipe(csv())
+            .on('data', (data) => results.push(data))
+            .on('end', () => {
+                console.log('CSV file successfully processed');
+                results.forEach(result => {
+                    recipients.push({
+                        email: result.email,
+                        name: result.name
+                    });
+                });
+            });
+
+        await new Promise((resolve, reject) => {
+            stream.on('end', resolve);
+            stream.on('error', reject);
+        });
+
+        return recipients;
+    } catch (error) {
+        console.error('Error reading CSV file:', error);
+        return []; // Return an empty array in case of an error
+    }
+};
+
+// Function to append to the log file
+const logEmail = async (recipient, success, error = null) => {
+    const timestamp = new Date().toISOString();
+    let logEntry = `${timestamp},${recipient.name},${recipient.email},${success ? 'Success' : 'Failed'}`;
+    if (error) {
+        logEntry += ` - Error: ${error.message || error}`;
+    }
+    logEntry += '\n';
+
+    try {
+        await fsPromises.appendFile(logFile, logEntry); // Use `fsPromises` here
+    } catch (err) {
+        console.error('Error writing to log file:', err);
+    }
+};
+
+// Function to monitor bounce emails
+const monitorBounces = async () => {
+    const config = {
+        imap: {
+            user: 'bounces@yourdomain.com', // Replace with your bounce handler email
+            password: 'yourpassword', // Replace with your email password
+            host: 'imap.hostinger.com', // Replace with your IMAP host
+            port: 993,
+            tls: true,
+        },
+    };
+
+    try {
+        const connection = await Imap.connect(config);
+        await connection.openBox('INBOX'); // Open the inbox folder
+        const searchCriteria = ['UNSEEN']; // Search for unseen (new) emails
+        const fetchOptions = { bodies: ['HEADER', 'TEXT'], markSeen: true };
+
+        const messages = await connection.search(searchCriteria, fetchOptions);
+        for (const message of messages) {
+            const all = message.parts.find((part) => part.which === 'TEXT');
+            const parsed = await simpleParser(all.body);
+
+            const recipient = parsed.to.text || 'Unknown Recipient';
+            const errorMessage = parsed.subject || 'Bounce Notification';
+
+            console.log(`Bounce detected for: ${recipient}`);
+            console.log(`Reason: ${errorMessage}`);
+
+            const logEntry = `${new Date().toISOString()},${recipient},Bounce,${errorMessage}\n`;
+            await fsPromises.appendFile(logFile, logEntry); // Log bounces to the same log file
+        }
+
+        await connection.end(); // Close the IMAP connection
+    } catch (error) {
+        console.error('Error monitoring bounces:', error);
+    }
+};
+
+const sendEmail = async (recipient, i) => {
+    const { email, name } = recipient; // Destructure the email and name
+    const subject = `2 Days to Go! Azure Data Engineering Demo! `;
+    const htmlBody = `
+        <div style="font-family: 'Verdana', sans-serif; line-height: 1.6; color: #333;">
+           <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 30px;">
+                <header style="text-align: center; ">
+                    <img src="cid:headerImage" alt="Header Image" style="width: 80%; max-width: 250px; ">
+                </header>
+                <header style="background-color: #0078d7; color: #fff; padding: 20px; text-align: center;">
+                    <h1 style="margin: 0; font-size: 24px;">Edufulness Azure Data Engineering Training</h1>
+                </header>
+                <main style="padding: 20px;">
+                    <p>Dear <strong>${name},</strong></p>
+                    <p>I hope this email finds you well. My name is <strong>Atchyut Kumar</strong>, and I am thrilled to introduce you to the exciting world of <strong>Azure Data Engineering</strong> through our comprehensive training program at <strong>Edufulness</strong>!</p>
+                    <p>At Edufulness, we understand the significance of hands-on experience and real-world applications. Our training program covers a wide array of essential tools and services, including:</p>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>Azure SQL Server</li>
+                        <li>Azure Data Factory</li>
+                        <li>Azure Synapse Analytics</li>
+                        <li>Azure Databricks</li>
+                        <li>Logic App</li>
+                        <li>Key Vault</li>
+                        <li>Blob Storage</li>
+                        <li>Azure Data Lake</li>
+                    </ul>
+                    <p>You will dive deep into each of these technologies, acquiring the skills and expertise required to architect and implement robust data solutions in the Azure ecosystem.</p>
+                    <p><strong>Demo Details:</strong></p>
+                    <p>
+                        Date: <strong>Feb 16, 2025 Sunday</strong><br>
+                        Time: <strong>10:00 AM IST</strong><br>
+                        Register in advance for this meeting: 
+                        <a href="https://us06web.zoom.us/meeting/register/U29Tyf2fTt-HYNR1sxfFNA" style="color: #0078d7; text-decoration: none;">Zoom Meeting Registration</a>
+                    </p>
+                    <p>After registering, you will receive a confirmation email containing information about joining the meeting.</p>
+                    <p>Here are some <strong>key highlights</strong> of our Azure Data Engineering training:</p>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>In-depth exploration of Azure SQL Server, Azure Data Factory, Azure Synapse Analytics, Databricks, Logic App, Blob Storage, and Azure Data Lake from scratch.</li>
+                        <li>Over 30+ real-time scenarios to enhance problem-solving abilities.</li>
+                        <li>Hands-on experience through 3 major industry projects.</li>
+                        <li>Industry-best instructors providing personalized attention.</li>
+                        <li>Flexible live classes to suit your busy schedule.</li>
+                        <li>Post-training support and resources to reinforce your learning.</li>
+                    </ul>
+                    <p>Are you ready to take your career to new heights and become a sought-after Azure Data Engineer? If yes, I invite you to join our upcoming live classes at Edufulness. The first step towards an exciting and rewarding future awaits you!</p>
+                    <p>Thank you for considering <strong>Edufulness</strong> as your learning partner. We look forward to having you on board and empowering you with the skills to conquer the world of Azure Data Engineering!</p>
+                    <p>Best regards,<br>
+                    <strong>Atchyut Kumar</strong><br>
+                    <strong>Azure Data Engineering Instructor, Edufulness</strong><br>
+                    Mob: 9567034641 (call/WhatsApp)</p>
+                </main>
+                 <div style="margin-top: 60px;"> 
+                        <p style="text-align: center;">
+                        <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" style="display: inline-block;max-width: 200px; padding: 10px 20px; background-color: #00be98; color: #fff; text-decoration: none; border-radius: 0px; font-weight: bold;">
+                            <img src="https://img.icons8.com/?size=100&id=7OeRNqg6S7Vf&format=png&color=000000" alt="WhatsApp Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;"> Join WhatsApp Group
+                        </a>
+                    </p>
+                    </div>
+
+                <footer style="background-color: #f8f8f8; color: #666; text-align: center; padding: 10px; font-size: 12px;">
+                    © 2025 Edufulness. All rights reserved.
+                </footer>
+            </div>
+
+        </div>
+    `;
+
+    const attachmentPath = path.resolve('C:/Users/siddhant/Documents/Web-Dev/w3/w3.1/w3/public/images/IMG-20241204-WA0008.jpg');
+
+    const mailOptions = {
+        from: '"Edufulness Data Engineering" <learning@edufulness.in>',
+        to: email,
+        subject: subject,
+        html: htmlBody,
+        attachments: [
+            {
+                filename: 'header-image.jpg',
+                path: attachmentPath,
+                cid: 'headerImage' // Content-ID for inline image
+            }
+        ],
+        dsn: {
+            id: `message-${i}`, // Unique ID for the message
+            return: 'headers', // Return headers in DSN
+            notify: ['failure', 'delay'], // Notify on failure or delay
+            recipient: email, // DSN recipient
+        }
+    };
+
+    try {
+        const attachmentExists = fs.existsSync(attachmentPath);
+        if (!attachmentExists) {
+            throw new Error(`Attachment not found at ${attachmentPath}`);
+        }
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully to:', recipient.name, `<${recipient.email}>`);
+        await logEmail(recipient, true);
+        return info;
+    } catch (error) {
+        console.error('Error while sending email:', error);
+        await logEmail(recipient, false, error);
+        throw error;
+    }
+};
+
+const sendBatch = async (recipients, start, end) => {
+    for (let i = start; i <= end; i++) {
+        try {
+            await sendEmail(recipients[i - 1], i); // Access recipients using index
+            await new Promise(resolve => setTimeout(resolve, 500));
+        } catch (error) {
+            console.error("Batch send error:", error);
+        }
+    }
+};
+
+// Create the log file if it doesn't exist (runs only once at the beginning)
+(async () => {
+    try {
+        await fs.access(logFile, fs.constants.F_OK); // Check if exists
+    } catch (err) {
+        // Doesn't exist
+        try {
+            await fs.writeFile(logFile, ''); // Create file
+        } catch (err) {
+            console.error("Error creating log file:", err);
+        }
+    }
+})(); // Immediately Invoked Async Function
+
+const batchSize = 50;
+const csvFilePath = './edufulness - Copy.csv'; // Correct Path Here
+
+(async () => {
+    const recipients = await readRecipientsFromCSV(csvFilePath); // Get recipients from CSV
+    if (recipients.length === 0) {
+        console.error("No recipients found. Check your CSV file and path.");
+        return; // Stop execution if no recipients
+    }
+
+    const numberOfEmails = recipients.length;
+
+    for (let i = 1; i <= numberOfEmails; i += batchSize) {
+        const end = Math.min(i + batchSize - 1, numberOfEmails);
+        console.log(`Sending batch ${i} to ${end}`);
+        await sendBatch(recipients, i, end);
+        console.log(`Batch ${i} to ${end} finished.`);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+
+    // Monitor bounces after sending all emails
+    console.log("Monitoring for bounces...");
+    await monitorBounces();
+})(); // End of IIFE

@@ -164,3 +164,74 @@ section {
   margin: 50px 0; 
   padding: 30PX ;
 }
+
+
+/* Accordion Container */
+.accordion {
+  max-width: 1000px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+}
+
+/* Accordion Item */
+.accordion-item {
+  border-bottom: 1px solid #ddd;
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+/* Accordion Header */
+.accordion-header {
+  margin: 0;
+}
+
+.accordion-button {
+  max-width: 3000px;
+  text-align: left;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #f8f9fa; /* Light gray */
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  color: #000; /* Black text */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.accordion-button:hover {
+  background-color: #e9ecef; /* Slightly darker gray */
+}
+
+.accordion-button.collapsed {
+  background-color: #f8f9fa;
+}
+
+.accordion-button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Accordion Collapse */
+.accordion-collapse {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-collapse.show {
+  max-height: 500px; /* Adjust based on content */
+}
+
+/* Accordion Body */
+.accordion-body {
+  padding: 15px;
+  background-color: #fff; /* White background */
+  font-size: 14px;
+  line-height: 1.6;
+  color: #212529; /* Bootstrap's standard text color */
+}

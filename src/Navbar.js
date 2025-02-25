@@ -1,19 +1,17 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Fab from '@mui/material/Fab';
+import {
+  AppBar, Toolbar, Typography, CssBaseline, Box, Container, Fab, Fade, Button, Menu, MenuItem,
+  Drawer, IconButton, List, ListItem, ListItemText, Collapse
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Fade from '@mui/material/Fade';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu'; // Import Menu
-import MenuItem from '@mui/material/MenuItem'; // Import MenuItem
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 function ScrollTop(props) {
   const { children, window } = props;
@@ -24,24 +22,15 @@ function ScrollTop(props) {
   });
 
   const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector(
-      '#back-to-top-anchor',
-    );
-
+    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
     if (anchor) {
-      anchor.scrollIntoView({
-        block: 'center',
-      });
+      anchor.scrollIntoView({ block: 'center' });
     }
   };
 
   return (
     <Fade in={trigger}>
-      <Box
-        onClick={handleClick}
-        role="presentation"
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}
-      >
+      <Box onClick={handleClick} role="presentation" sx={{ position: 'fixed', bottom: 16, right: 16 }}>
         {children}
       </Box>
     </Fade>
@@ -54,26 +43,35 @@ ScrollTop.propTypes = {
 };
 
 export default function Navbar(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null); // Define anchorEl state
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElTrainings, setAnchorElTrainings] = React.useState(null);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [openTutorials, setOpenTutorials] = React.useState(false);
+  const [openTrainings, setOpenTrainings] = React.useState(false);
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget); // Define handleClick
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null); // Define handleClose
-  };
-
+  // Desktop Tutorials Menu
+  const handleTutorialsClick = (event) => setAnchorEl(event.currentTarget);
+  const handleTutorialsClose = () => setAnchorEl(null);
   const handleSQLClick = () => {
-    navigate('/sql'); // Navigate to the SQL route
-    handleClose(); // Close the menu
+    navigate('/sql');
+    handleTutorialsClose();
   };
 
-  const handleExerciseClick = () => {
-    navigate('/exercise'); // Updated to match the new route structure
-    handleClose();
+  // Desktop Trainings Menu
+  const handleTrainingsMenuOpen = (event) => setAnchorElTrainings(event.currentTarget);
+  const handleTrainingsMenuClose = () => setAnchorElTrainings(null);
+  const handleFECivilClick = () => {
+    navigate('/course');
+    handleTrainingsMenuClose();
   };
+
+  // Mobile Drawer Handlers
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  const handleMobileTutorialsClick = () => setOpenTutorials(!openTutorials);
+  const handleMobileTrainingsClick = () => setOpenTrainings(!openTrainings);
 
   return (
     <React.Fragment>
@@ -81,37 +79,146 @@ export default function Navbar(props) {
       <AppBar position="fixed" sx={{ backgroundColor: 'white', color: 'black' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <img
-      src={`${process.env.PUBLIC_URL}/logo.jpg`} // Path to your logo
-      alt="Logo"
-      style={{ width: "180px", height: "50px", marginRight: "10px" }} // Adjust size
-      onClick={() => navigate("/")} // Redirect to "/" on click
-      className="cursor-pointer" // Add pointer cursor for interactivity
-    />
-            <Typography variant="h6" component="div">
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Button color="inherit" onClick={handleClick}>
-                  Tutorials
-                </Button>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleSQLClick}>SQL</MenuItem> 
-                </Menu>
-                <Button color="inherit"onClick={handleExerciseClick}>Exercise</Button>
-              </Box>
-            </Typography>
+            <img
+              src={`${process.env.PUBLIC_URL}/logo.jpg`}
+              alt="Logo"
+              style={{ width: "180px", height: "50px", marginRight: "10px", cursor: "pointer" }}
+              onClick={() => navigate("/")}
+            />
+
+            {isMobile ? (
+              <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
+                <MenuIcon />
+              </IconButton>
+            ) : (
+              <Typography variant="h6" component="div">
+                <Box sx={{ display: 'flex', gap: 2 }}>
+  {/* Tutorials Dropdown */}
+  <Button 
+    color="inherit" 
+    onClick={handleTutorialsClick}
+    disableRipple
+    sx={{ 
+      position: 'relative', 
+      '&:hover::after': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        bottom: '-2px',
+        width: '100%',
+        height: '2px',
+        backgroundColor: '#233c7b',
+      }
+    }}
+  >
+    Tutorials
+  </Button>
+  <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleTutorialsClose}>
+    <MenuItem onClick={handleSQLClick}>SQL</MenuItem>
+  </Menu>
+
+  {/* Exercise Button */}
+  <Button 
+    color="inherit" 
+    onClick={() => navigate('/exercise')}
+    disableRipple
+    sx={{ 
+      position: 'relative', 
+      '&:hover::after': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        bottom: '-2px',
+        width: '100%',
+        height: '2px',
+        backgroundColor: '#233c7b',
+      }
+    }}
+  >
+    Exercise
+  </Button>
+
+  {/* Trainings Dropdown */}
+  <Button 
+    color="inherit" 
+    onClick={handleTrainingsMenuOpen}
+    disableRipple
+    sx={{ 
+      position: 'relative', 
+      '&:hover::after': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        bottom: '-2px',
+        width: '100%',
+        height: '2px',
+        backgroundColor: '#233c7b',
+      }
+    }}
+  >
+    Trainings
+  </Button>
+  <Menu anchorEl={anchorElTrainings} open={Boolean(anchorElTrainings)} onClose={handleTrainingsMenuClose}>
+  <MenuItem onClick={() => { navigate('/'); handleTrainingsMenuClose(); }}>DATA ENG.</MenuItem>
+  <MenuItem onClick={handleFECivilClick}>FE Civil</MenuItem>
+  
+</Menu>
+
+  
+</Box>
+
+              </Typography>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
+
+      {/* Mobile Drawer */}
+      <Drawer anchor="left" open={mobileOpen} onClose={handleDrawerToggle}>
+        <List>
+          {/* Tutorials Section */}
+          <ListItem button onClick={handleMobileTutorialsClick}>
+            <ListItemText primary="Tutorials" />
+            {openTutorials ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </ListItem>
+          <Collapse in={openTutorials} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/sql'); handleDrawerToggle(); }}>
+                <ListItemText primary="SQL" />
+              </ListItem>
+            </List>
+          </Collapse>
+
+          {/* Exercise Section */}
+          <ListItem button onClick={() => { navigate('/exercise'); handleDrawerToggle(); }}>
+            <ListItemText primary="Exercise" />
+          </ListItem>
+
+          {/* Trainings Section */}
+          <ListItem button onClick={handleMobileTrainingsClick}>
+            <ListItemText primary="Trainings" />
+            {openTrainings ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </ListItem>
+          <Collapse in={openTrainings} timeout="auto" unmountOnExit>
+  <List component="div" disablePadding>
+  <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/'); handleDrawerToggle(); }}>
+      <ListItemText primary="DATA ENG." />
+    </ListItem>
+    <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/course'); handleDrawerToggle(); }}>
+      <ListItemText primary="FE Civil" />
+    </ListItem>
+    
+  </List>
+</Collapse>
+
+        </List>
+      </Drawer>
+
       <Toolbar id="back-to-top-anchor" />
       <Container>
-        <Box sx={{ my: 2 }}>
-          {/* Remove or comment out the unwanted text block */}
-        </Box>
+        <Box sx={{ my: 2 }}></Box>
       </Container>
+
       <ScrollTop {...props}>
         <Fab size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />

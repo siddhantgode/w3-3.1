@@ -12,6 +12,11 @@ html, body {
   box-sizing: inherit;
 }
 
+.custom-modal-width .modal-dialog {
+  max-width: 800px; /* Or a percentage, e.g., max-width: 90% */
+  width: 800px; /* Or a percentage, e.g., width: 90% */
+  margin: 0 auto; /* Center the modal */
+}
 /* Remove any additional padding or margin added to the main container */
 .container {
   margin: 0;

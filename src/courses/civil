@@ -1,0 +1,228 @@
+<div
+      className="container my-5"
+      style={{ fontFamily: "'Montserrat', sans-serif" }}
+    >
+      <div className="banner-section">
+        <div className="container">
+          <div className="row justify-content-around align-items-center">
+            {/* Left Section */}
+            <div className="left-section col-md-6">
+              <h1 className="heading">Data Engineering Course</h1>
+              <h3 className="subheading">From Design To Implementation!</h3>
+              <ul>
+                <li>100% Placement Support</li>
+                <li>Industry Led Curriculum</li>
+                <li>Hands-on Training</li>
+                <li>40+ Projects</li>
+                <li>Edufulness Certification</li>
+              </ul>
+              <h4 className="live-class">
+                Live Online Classes | 16-Feb-2025 10:00AM IST (Sunday)
+              </h4>
+            </div>
+
+            {/* Right Section */}
+            <div className="right-section col-md-5 bg-light shadow rounded p-4 mx-auto">
+              {/* Form Heading */}
+              <h2 className="text-center mb-3">FILL THE FORM</h2>
+              {/* Live Class Alert */}
+              <h3 className="live-class-alert text-info text-center mb-4">
+                Live Online Classes <br />
+                16-Feb-2025 10:00AM IST <br />
+                (Sunday)
+              </h3>
+              {/* Form */}
+            
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Header */}
+      <header className="mb-5 text-center">
+        <h1 className="display-4 text-dark mb-3 fw-bold">
+          FE Civil Engineering Course
+        </h1>
+        <p className="lead text-secondary">
+          Comprehensive preparation for the FE Civil Exam with expert guidance
+          and resources.
+        </p>
+      </header>
+
+      {/* Course Features */}
+      <section className="mb-5 p-4 shadow-sm bg-light rounded">
+        <h2 className="h3 text-dark mb-4 fw-bold">Course Features</h2>
+        <ul className="list-group">
+          <li className="list-group-item border-0">
+            200+ Hours of Comprehensive Lectures covering all key topics.
+          </li>
+          <li className="list-group-item border-0">
+            Weekly Tests & Assessments to track progress.
+          </li>
+          <li className="list-group-item border-0">
+            Dedicated Doubt-Solving Sessions for better understanding.
+          </li>
+          <li className="list-group-item border-0">
+            Well-Explained Examples for concept clarity.
+          </li>
+          <li className="list-group-item border-0">
+            Smart Shortcuts & Tricks to solve problems efficiently.
+          </li>
+        </ul>
+      </section>
+
+      {/* Syllabus */}
+      <section className="mb-5 p-4 shadow-sm bg-light rounded">
+        <h2 className="h3 text-dark mb-4 fw-bold">Syllabus</h2>
+        <p className="h5 mb-3 text-secondary">
+          FE Civil Engineering Subjects:
+        </p>
+        <ul className="list-group">
+          <li className="list-group-item border-0">Mathematics and Statistics</li>
+          <li className="list-group-item border-0">
+            Ethics and Professional Practice
+          </li>
+          <li className="list-group-item border-0">Engineering Economics</li>
+          <li className="list-group-item border-0">Statics</li>
+          <li className="list-group-item border-0">Dynamics</li>
+          <li className="list-group-item border-0">Mechanics of Materials</li>
+          <li className="list-group-item border-0">Materials</li>
+          <li className="list-group-item border-0">Fluid Mechanics</li>
+          <li className="list-group-item border-0">Surveying</li>
+          <li className="list-group-item border-0">
+            Water Resources and Environmental Engineering
+          </li>
+          <li className="list-group-item border-0">Structural Engineering</li>
+          <li className="list-group-item border-0">Geotechnical Engineering</li>
+          <li className="list-group-item border-0">
+            Transportation Engineering
+          </li>
+          <li className="list-group-item border-0">
+            Construction Engineering
+          </li>
+        </ul>
+      </section>
+
+      {/* Exam Details */}
+      <section className="mb-5 p-4 shadow-sm bg-light rounded">
+        <h2 className="h3 text-dark mb-4 fw-bold">FE Exam Civil Engineering</h2>
+        <div>
+          {/* Introduction */}
+          <div className="mb-4">
+            <h3 className="h5 text-dark fw-bold">1. Introduction</h3>
+            <ul>
+              <li>
+                The Fundamentals of Engineering (FE) Civil Exam is the first
+                step toward professional engineering licensure.
+              </li>
+              <li>
+                Designed for recent graduates and students nearing the
+                completion of an ABET-accredited engineering degree.
+              </li>
+              <li>
+                Administered by the National Council of Examiners for
+                Engineering and Surveying (NCEES) in the U.S.
+              </li>
+            </ul>
+          </div>
+
+          {/* Exam Format */}
+          <div className="mb-4">
+            <h3 className="h5 text-dark fw-bold">2. Exam Format and Duration</h3>
+            <ul>
+              <li>
+                Computer-based test (CBT) conducted at Pearson VUE test centers.
+              </li>
+              <li>110 multiple-choice questions covering key civil topics.</li>
+              <li>Total duration: 6 hours, including a 25-minute break.</li>
+              <li>
+                Linear-on-the-fly testing (LOFT) ensures unique question sets
+                for each candidate.
+              </li>
+              <li>Digital reference handbook provided during the exam.</li>
+            </ul>
+          </div>
+
+          {/* Topics */}
+          <div>
+            <h3 className="h5 text-dark fw-bold">3. Exam Topics</h3>
+            <ul>
+              <li>Mathematics & Statistics: Calculus, statistics, probability.</li>
+              <li>
+                Ethics & Professional Practice: Engineering ethics and
+                responsibilities.
+              </li>
+              <li>
+                Engineering Economics: Time value of money, cost analysis, and
+                risk assessment.
+              </li>
+              <li>Statics: Force systems, equilibrium, and moments of inertia.</li>
+              <li>Dynamics: Kinematics, energy principles, and force acceleration.</li>
+              <li>
+                Mechanics of Materials: Stress-strain analysis, bending, shear,
+                and torsion.
+              </li>
+              <li>
+                Materials Science: Properties and testing of concrete, steel,
+                and asphalt.
+              </li>
+              <li>
+                Water Resources & Environmental Engineering: Hydrology, water
+                treatment, and stormwater systems.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="mb-5 p-4 shadow-sm bg-light rounded">
+        <h2 className="h3 text-dark mb-4 fw-bold">FAQs</h2>
+        <div className="accordion" id="faqAccordion">
+          {[
+            {
+              question: "What is the FE Civil Exam?",
+              answer:
+                "A computer-based exam for aspiring professional engineers, covering fundamental civil engineering topics.",
+            },
+            {
+              question: "Who is eligible to take the FE Exam?",
+              answer:
+                "Engineering graduates or final-year students from an ABET-accredited program.",
+            },
+            {
+              question: "How many questions are on the exam?",
+              answer:
+                "110 multiple-choice questions, with a 6-hour duration including a 25-minute break.",
+            },
+            {
+              question: "What is the passing score?",
+              answer:
+                "The passing score is not fixed; it varies based on overall test performance and difficulty.",
+            },
+          ].map((faq, index) => (
+            <div className="accordion-item" key={index}>
+              <h2 className="accordion-header" id={`heading${index}`}>
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#collapse${index}`}
+                  aria-expanded="false"
+                  aria-controls={`collapse${index}`}
+                >
+                  {faq.question}
+                </button>
+              </h2>
+              <div
+                id={`collapse${index}`}
+                className="accordion-collapse collapse"
+                aria-labelledby={`heading${index}`}
+                data-bs-parent="#faqAccordion"
+              >
+                <div className="accordion-body">{faq.answer}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
