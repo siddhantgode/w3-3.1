@@ -36,10 +36,10 @@ function App() {
                 <Route path="/sql" element={<MainSection />}/>
                                 <Route path="/twosections" element={<TwoSections />} />
                 <Route path="*" element={<h1>404 Not Found</h1>} />
-                <Route path="/course" element={<Banner1/>} />
+                <Route path="/fe_civil" element={<Banner1/>} />
                 <Route path="/course2" element={<SimpleAccordion/>} />
                 <Route path="/test" element={<CustomAccordion/>} />
-                <Route path="/course3" element={<Banner2/>} />
+                <Route path="/snowflake" element={<Banner2/>} />
               </Routes>
             </main>
           </Col>

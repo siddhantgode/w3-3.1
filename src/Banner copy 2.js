@@ -8,6 +8,7 @@ import { collection, addDoc } from "firebase/firestore"; // Functions to interac
 import RegistrationForm from './components/registrationForm';
 import Roadmap from './components/roadmap';
 import CustomAccordion from './accordian';
+import SnowflakeAccordion from './accordian3';
 
 
 
@@ -222,7 +223,7 @@ const Banner2 = () => {
             {/* Left Section */}
             <div className="left-section col-md-6">
               <h1 className="heading">Snowflake  Certification </h1>
-              <h3 className="subheading">Comprehensive preparation for the FE Civil Exam with expert guidance
+              <h3 className="subheading">Comprehensive preparation for the Snowflake Course with expert guidance
               and resources</h3>
               <ul>
               <li>Instructor Led Training: 25 Hrs</li>
@@ -270,7 +271,7 @@ const Banner2 = () => {
             SNOWFLAKE <span className="text-primary">COURSE</span>
             </h2>
             <p className="text-muted">
-            (Lectures + Doubt Solving + Tips and Tricks + Weekly Tests)
+            (Live Sessions + Professional Trainers + Small Batches + 24 X 7 support)
             </p>
           </div>
           <div className="row justify-content-center">
@@ -364,7 +365,7 @@ const Banner2 = () => {
       <div className="col-md-6 text-center">
         <div className="image-container">
           <img
-            src="https://mms.businesswire.com/media/20230627551458/en/1828804/5/1200x500-summit23_PR_Leading_Apps-03_%281%29.jpg"
+            src="\images\dataSnowflake.jpg"
             alt="Project Feedback"
             className="img-fluid custom-image"
           />
@@ -375,7 +376,8 @@ const Banner2 = () => {
       <div className="col-md-6">
   <h2 className="fw-bold">Description</h2>
   <p className="description-text" style={{ maxWidth: '500px', textAlign: 'justify', fontFamily: 'Montserrat', fontWeight: '400' }}> 
-  the FE Civil Engineering exam, the first step towards professional licensure. It covers the exam's syllabus, format, and frequently asked questions.  The syllabus includes key subjects like Mathematics and Statistics, Ethics, Economics, Statics, Dynamics, Mechanics of Materials, Materials Science, Fluid Mechanics, Surveying, Water Resources, Structural, Geotechnical, Transportation, and Construction Engineering. The computer-based exam consists of 110 multiple-choice questions over 6 hours, including a break.  It is administered by NCEES and tests fundamental engineering concepts. The FAQs address common questions about the exam's purpose, eligibility, number of questions, and scoring.
+  Edufulness is here to help you get started with the Snowflake certification course to ensure you have the right means to enjoy a career in this domain. Our Snowflake online course will help you gain an in-depth understanding of key concepts Snowflake cloning, fail-safe, analytics solutions, undrop, and object. This Snowflake training is designed to help you gain mastery over the fundamentals of key data warehousing capabilities and working with data and analytics.
+
 </p>
 </div>
     </div>
@@ -396,7 +398,7 @@ const Banner2 = () => {
               Why Edufulness
             </h2>
             <p style={{ fontSize: "1.2rem", lineHeight: "1.5" }}>
-              Edufulness's F.E Civil is leading Project Based Career
+              Edufulness's Snowflake Course is  Project Based Career
               Programs that promises  Placement Support on completing
               the course. Here theory and practical go hand-in-hand, placing
               you in top companies with high salaries.
@@ -467,7 +469,7 @@ const Banner2 = () => {
       <div className="overview">
        <div className="container">
   <div className="row overview_row">
-    <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>FE Exam Civil Engineering</h2>
+    <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>SNOWFLAKE COURSE</h2>
     <p className="text-center pb-4" style={{ fontSize: '1rem', fontFamily: 'Montserrat', fontWeight: '400' }}> 
       Check the only eligibility criteria <br />
       Students & Working Professionals, seeking opportunities to upskill their Data Engineering proficiency for faster career growth.
@@ -476,7 +478,7 @@ const Banner2 = () => {
     <div className="col-md-4 col-sm-6 mb-4">
       <div className="card shadow bg-light" style={{ border: 'none', borderRadius: '0', minHeight: '100px' }}> 
         <div className="card-body d-flex align-items-center justify-content-center"> 
-          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>200+ Hours of Comprehensive Lectures covering all key topics.</h5> 
+          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Instructor Led Training: 25 Hrs</h5> 
         </div>
       </div>
     </div>
@@ -484,7 +486,7 @@ const Banner2 = () => {
     <div className="col-md-4 col-sm-6 mb-4">
       <div className="card shadow bg-light" style={{ border: 'none', borderRadius: '0', minHeight: '100px' }}> 
         <div className="card-body d-flex align-items-center justify-content-center"> 
-          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Weekly Tests & Assessments to track progress.</h5> 
+          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>1on1 Training Option Available</h5> 
         </div>
       </div>
     </div>
@@ -492,7 +494,7 @@ const Banner2 = () => {
     <div className="col-md-4 col-sm-6 mb-4">
       <div className="card shadow bg-light" style={{ border: 'none', borderRadius: '0', minHeight: '100px' }}> 
         <div className="card-body d-flex align-items-center justify-content-center"> 
-          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Dedicated Doubt-Solving Sessions for better understanding.</h5> 
+          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Experienced & Professional Trainers</h5> 
         </div>
       </div>
     </div>
@@ -500,7 +502,7 @@ const Banner2 = () => {
     <div className="col-md-4 col-sm-6 mb-4">
       <div className="card shadow bg-light" style={{ border: 'none', borderRadius: '0', minHeight: '100px' }}> 
         <div className="card-body d-flex align-items-center justify-content-center"> 
-          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Well-Explained Examples for concept clarity.</h5> 
+          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>24x7 Support & Access</h5> 
         </div>
       </div>
     </div>
@@ -508,7 +510,7 @@ const Banner2 = () => {
     <div className="col-md-4 col-sm-6 mb-4">
       <div className="card shadow bg-light" style={{ border: 'none', borderRadius: '0', minHeight: '100px' }}> 
         <div className="card-body d-flex align-items-center justify-content-center"> 
-          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Smart Shortcuts & Tricks to solve problems efficiently.</h5> 
+          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Small Batches</h5> 
         </div>
       </div>
     </div>
@@ -516,7 +518,7 @@ const Banner2 = () => {
     <div className="col-md-4 col-sm-6 mb-4">
       <div className="card shadow bg-light" style={{ border: 'none', borderRadius: '0', minHeight: '100px' }}> 
         <div className="card-body d-flex align-items-center justify-content-center"> 
-          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Expert Faculty</h5> 
+          <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '600' }}>Flexible Schedule</h5> 
         </div>
       </div>
     </div>
@@ -529,152 +531,184 @@ const Banner2 = () => {
     <div className="container">
       <div className="row overview_row">
         <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>
-          FE Exam Subjects
+          Snowflake Topics
         </h2>
 
         <p className="text-center pb-4" style={{ fontSize: '1rem', fontFamily: 'Montserrat', fontWeight: '400' }}>
-          The FE Civil Exam covers the following subjects.
+          The Snowflake Course covers the following subjects.
         </p>
 
-        {/* Subjects List */}
-        {[
-          "Mathematics and Statistics",
-          "Ethics, Economics",
-          "Statics",
-          "Dynamics",
-          "Mechanics of Materials",
-          "Materials Science",
-          "Fluid Mechanics",
-          "Surveying",
-          "Water Resources",
-          "Structural",
-          "Geotechnical",
-          "Transport and Construction Eng."
-          
-        ].map((subject, index) => (
-          <div key={index} className="col-md-3 col-sm-6 mb-3">
-            <div 
-              className="card shadow bg-light" 
-              style={{ 
-                border: 'none', 
-                borderRadius: '0', 
-                minHeight: '60px',  // Reduced card size
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '10px'  // Adding some spacing inside
-              }}
-            >
-              <div className="card-body d-flex align-items-center justify-content-center">
-                <h5 style={{ 
-                  fontSize: '1.2rem',  // Increased font size
-                  fontFamily: 'Montserrat', 
-                  fontWeight: '700', // Bold and stronger
-                  textAlign: 'center' 
-                }}>
-                  {subject}
-                </h5>
+        <div className="row">
+          {/* First Column */}
+          <div className="col-md-4 col-sm-6 mb-3">
+            {[
+              "Introduction to Snowflake",
+              "Understanding Cloud Platforms",
+              "Data Loading and Unloading in Snowflake Cloud",
+              "Snowpipe"
+            ].map((subject, index) => (
+              <div key={index} className="card shadow bg-light mb-3" 
+                style={{ border: 'none', borderRadius: '0', minHeight: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px' }}>
+                <div className="card-body d-flex align-items-center justify-content-center">
+                  <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '700', textAlign: 'center' }}>
+                    {subject}
+                  </h5>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
+
+          {/* Second Column */}
+          <div className="col-md-4 col-sm-6 mb-3">
+            {[
+              "Partner Connect With Snowflake",
+              "Handling JSON and Semi Structured Data",
+              "Scheduling with Snowflake",
+              "Secure Data Sharing"
+            ].map((subject, index) => (
+              <div key={index} className="card shadow bg-light mb-3" 
+                style={{ border: 'none', borderRadius: '0', minHeight: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px' }}>
+                <div className="card-body d-flex align-items-center justify-content-center">
+                  <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '700', textAlign: 'center' }}>
+                    {subject}
+                  </h5>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Third Column */}
+          <div className="col-md-4 col-sm-6 mb-3">
+            {[
+              "Cloning in Snowflake",
+              "Time Travel and Failsafe in Snowflake",
+              "Clustering and Performance"
+            ].map((subject, index) => (
+              <div key={index} className="card shadow bg-light mb-3" 
+                style={{ border: 'none', borderRadius: '0', minHeight: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px' }}>
+                <div className="card-body d-flex align-items-center justify-content-center">
+                  <h5 style={{ fontSize: '1.2rem', fontFamily: 'Montserrat', fontWeight: '700', textAlign: 'center' }}>
+                    {subject}
+                  </h5>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 
+
+
+
     <section 
   className="mb-5 p-4 shadow-sm bg-light rounded"
   style={{ marginLeft: '40px', marginRight: '40px' }} // Inline styles for margins
 >
-<div className="container my-5" style={{ paddingLeft: '20px', paddingRight: '20px' }}>
-<h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>FE Civil Engineering</h2>
+  <p>
+  <div className="container my-5" style={{ paddingLeft: '20px', paddingRight: '20px' }}>
+<h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>Snowflake Course</h2>
       
       {/* Introduction */}
       <div className="mb-4">
+        <p>
         <h3 className="h5 text-dark fw-bold">1. Introduction</h3>
+        </p>
         <ul>
-          <li>The Fundamentals of Engineering (FE) Civil Exam is the first step toward professional engineering licensure.</li>
-          <li>Designed for recent graduates and students nearing the completion of an ABET-accredited engineering degree.</li>
-          <li>Administered by the National Council of Examiners for Engineering and Surveying (NCEES) in the U.S.</li>
+          <p style={{ textAlign: 'justify' }}>
+          Edufulness's Snowflake training Online is aligned with the latest curriculum of the Snowflake certification exam. Our Snowflake certification online training course includes basic concepts and features to make you proficient in this cloud-based tool. This training will also help you build a data architecture, collect data, identify patterns, create models, and build data pipelines in Snowflake. Upon successful completion of our Snowflake certification training, participants can apply for roles such as Snowflake Developer, Data Analyst, and Snowflake Data Engineer positions in any industry. Snowflake is the most popular cloud-based data tool and it has become popular among IT professionals. Backed by a team of experienced trainers, Edufulness helps you learn the basic and advanced concepts of this cloud-based data tool. You can learn how to use Snowflake to handle and organize a large data bank.
+          </p>
         </ul>
       </div>
 
       {/* Exam Format */}
       <div className="mb-4">
-        <h3 className="h5 text-dark fw-bold">2. Exam Format and Duration</h3>
+       <p> 
+        <h3 className="h5 text-dark fw-bold">2. Objectives for Snowflake Training</h3>
+        </p>
         <ul>
-          <li>Computer-based test (CBT) conducted at Pearson VUE test centers.</li>
-          <li>110 multiple-choice questions covering key civil topics.</li>
-          <li>Total duration: 6 hours, including a 25-minute break.</li>
-          <li>Linear-on-the-fly testing (LOFT) ensures unique question sets for each candidate.</li>
-          <li>Digital reference handbook provided during the exam.</li>
+        <p style={{ textAlign: 'justify' }}>
+        At Edufulness, we understand the needs of every individual. Thus, we work by incorporating advanced methodologies to make them proficient in the data warehouse. Our main objective is to provide individuals with industrial expertise. Our instructor-led training program can help you open up opportunities for your career growth in diverse domains
+        </p>
         </ul>
+        
       </div>
 
       {/* Exam Topics */}
       <div className="mb-4">
-        <h3 className="h5 text-dark fw-bold">3. Exam Topics</h3>
+        <p>
+        <h3 className="h5 text-dark fw-bold">3. Skills Covered in Snowflake Certification Training</h3>
+
+        </p>
+                
+        <p>
         <ul>
-          <li>Mathematics & Statistics: Calculus, statistics, probability.</li>
-          <li>Ethics & Professional Practice: Engineering ethics and responsibilities.</li>
-          <li>Engineering Economics: Time value of money, cost analysis, and risk assessment.</li>
-          <li>Statics: Force systems, equilibrium, and moments of inertia.</li>
-          <li>Dynamics: Kinematics, energy principles, and force acceleration.</li>
-          <li>Mechanics of Materials: Stress-strain analysis, bending, shear, and torsion.</li>
-          <li>Materials Science: Properties and testing of concrete, steel, and asphalt.</li>
-          <li>Water Resources & Environmental Engineering: Hydrology, water treatment, and stormwater systems.</li>
-        </ul>
+  <li>Demonstrate the Snowflake Cloud Data Platform's distinct and differentiated architecture.</li>
+  <li>Data loading and transformation.</li>
+  <li>Examine query constructs as well as DDL and DML operations.</li>
+  <li>Describe how you can easily manage user and application access.</li>
+  <li>Take a look at Snowflake's SQL support for data analysis.</li>
+  <li>Examine the many methods to connect to the Snowflake Platform and interact with it.</li>
+  <li>Use Data Sharing to transmit data to customers and partners in real-time.</li>
+  <li>Demonstrate how to work with semi-structured data using best practices.</li>
+  <li>Examine how Snowflake takes a unique approach to caching.</li>
+  <li>For continuous data security, use Snowflake's technique.</li>
+</ul>
+
+        </p>
+        
+
       </div>
 
       {/* Scoring */}
       <div className="mb-4">
-        <h3 className="h5 text-dark fw-bold">4. Scoring and Passing Criteria</h3>
-        <ul>
-          <li>The FE Exam uses a scaled scoring system, and there is no fixed passing percentage.</li>
-          <li>The passing score is determined based on the exam difficulty and performance of all test-takers.</li>
-          <li>Results are released 7–10 days after the exam via the NCEES account.</li>
-          <li>Candidates receive a Pass/Fail result without detailed score breakdowns.</li>
+        <p>
+        <h3 className="h5 text-dark fw-bold">4. Who Should Opt Snowflake Certification Course ?</h3>
+        <p><ul>
+        Any data engineer having basic knowledge of SQL can take this Snowflake course. Recently, the following professionals have been in the race to take the Snowflake course.
         </ul>
+        
+        </p>
+        <ul>
+  <li>Data Analysts</li>
+  <li>Data Engineers</li>
+  <li>Data Scientists</li>
+  <li>Database Architects</li>
+  <li>Database Administrators</li>
+  <li>Data Application Developers</li>
+  <li>Anyone who wants to study Snowflake at all levels from beginner to expert.</li>
+</ul>
+
+        </p>
       </div>
 
       {/* Eligibility and Registration */}
       <div className="mb-4">
-        <h3 className="h5 text-dark fw-bold">5. Eligibility and Registration</h3>
+        <p>
+        <h3 className="h5 text-dark fw-bold">5. Prerequisites for Snowflake Online Training</h3>
         <ul>
-          <li>The FE Civil Exam is open to engineering graduates or students in their final year of study.</li>
-          <li>Registration is done through the NCEES website.</li>
-          <li>Exam fees are $175 (as of 2025) but may vary by state.</li>
-          <li>Some states may have additional eligibility requirements, so check with your state board.</li>
+        Basic knowledge of SQL is recommended.
         </ul>
+        </p>
       </div>
 
       {/* Study Materials */}
       <div className="mb-4">
-        <h3 className="h5 text-dark fw-bold">6. Study Materials and Preparation</h3>
+        <p>
+        <h3 className="h5 text-dark fw-bold">6. Advantages for Snowflake Online Course</h3>
         <ul>
-          <li>The FE Reference Handbook is the only official material allowed during the exam.</li>
-          <li>Popular prep books include Lindeburg's FE Civil Review Manual and NCEES Practice Exams.</li>
-          <li>Practice solving problems quickly since time management is crucial.</li>
-          <li>Weekly mock tests help improve speed and accuracy.</li>
-          <li>Formula sheets and shortcuts are useful for last-minute revision.</li>
-          <li>Focus on conceptual understanding rather than memorization.</li>
+        Recruiters prioritize candidates with proven knowledge, skills, and industry-recognized certifications in Snowflake. Companies seek Snowflake professionals who possess a comprehensive skillset. Enhance your Snowflake career prospects by honing expertise through igmGuru's Snowflake certification course.
         </ul>
+        </p>
       </div>
 
-      {/* Exam Day Guidelines */}
-      <div className="mb-4">
-        <h3 className="h5 text-dark fw-bold">7. Exam-Day Guidelines</h3>
-        <ul>
-          <li>Arrive at the test center 30 minutes before the scheduled exam time.</li>
-          <li>Bring a valid government-issued ID matching your NCEES registration name.</li>
-          <li>Only NCEES-approved calculators (e.g., Casio FX-115, TI-30X series) are allowed.</li>
-          <li>Personal items, including phones, smartwatches, and notes, are prohibited.</li>
-          <li>A scratch pad and marker will be provided for rough work.</li>
-        </ul>
-      </div>
+     
     </div>
+  </p>
+
         
       </section>
     {/*Program Overview end */}
@@ -693,7 +727,7 @@ const Banner2 = () => {
         <div className="price">
           <h3 style={{ fontSize: '18px', marginBottom: '5px' }}>Program Fee</h3>
           <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
-  <span style={{ textDecoration: 'line-through' }}>$3000</span> $1000 (Inc taxes)
+  <span style={{ textDecoration: 'line-through' }}>₹30000</span> ₹15000 (Inc taxes)
 </p>
         </div>
         <p style={{ fontSize: '14px', color: '#ff0000', marginBottom: '10px' }}>Limited Time Offer!</p>
@@ -725,8 +759,8 @@ const Banner2 = () => {
       <div className="container">
         <div className="row align-items-center">
           <div className="col-md-12">
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Master the Civil Engineering with Edufulness certification 
-              for becoming an Advanced Engineering Professional</h2>
+            <h2 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Master Snowflake with Edufulness certification 
+              for becoming an Advanced Data Professional</h2>
               <Row className="justify-content-center">
   <Col md={4} className="text-center">
   <button
@@ -747,19 +781,17 @@ const Banner2 = () => {
     {/*Where students work start */}
     {/*Where students work start */}
    
-{/*Where studetns work end */}
 
-{/*Youtue link start*/}
 
 
 
 
 <div className="container mt-5">
       
-      
+      {/*FAQS*/}
       <section>
         <h2 className="mb-3">FAQs</h2>
-      <CustomAccordion/>
+      <SnowflakeAccordion/>
 
       </section>
     </div>

@@ -64,7 +64,11 @@ export default function Navbar(props) {
   const handleTrainingsMenuOpen = (event) => setAnchorElTrainings(event.currentTarget);
   const handleTrainingsMenuClose = () => setAnchorElTrainings(null);
   const handleFECivilClick = () => {
-    navigate('/course');
+    navigate('/fe_civil');
+    handleTrainingsMenuClose();
+  };
+  const handleSnowflakeClick = () => {
+    navigate('/snowflake');
     handleTrainingsMenuClose();
   };
 
@@ -161,6 +165,7 @@ export default function Navbar(props) {
   <Menu anchorEl={anchorElTrainings} open={Boolean(anchorElTrainings)} onClose={handleTrainingsMenuClose}>
   <MenuItem onClick={() => { navigate('/'); handleTrainingsMenuClose(); }}>DATA ENG.</MenuItem>
   <MenuItem onClick={handleFECivilClick}>FE Civil</MenuItem>
+  <MenuItem onClick={handleSnowflakeClick}>SNOWFLAKE</MenuItem>
   
 </Menu>
 
@@ -204,9 +209,14 @@ export default function Navbar(props) {
   <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/'); handleDrawerToggle(); }}>
       <ListItemText primary="DATA ENG." />
     </ListItem>
-    <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/course'); handleDrawerToggle(); }}>
+    <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/fe_civil'); handleDrawerToggle(); }}>
       <ListItemText primary="FE Civil" />
     </ListItem>
+    <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/snowflake'); handleDrawerToggle(); }}>
+      <ListItemText primary="SNOWFLAKE" />
+    </ListItem>
+                                                                                                                                                                                                         
+    
     
   </List>
 </Collapse>
