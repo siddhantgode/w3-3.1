@@ -72,6 +72,16 @@ export default function Navbar(props) {
     handleTrainingsMenuClose();
   };
 
+  const handleEngClick = () => {
+    navigate('/eng');
+    handleTrainingsMenuClose();
+  };
+
+  const handleSqlClick = () => {
+    navigate('/sql_course');
+    handleTrainingsMenuClose();
+  };
+
   // Mobile Drawer Handlers
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
   const handleMobileTutorialsClick = () => setOpenTutorials(!openTutorials);
@@ -81,105 +91,58 @@ export default function Navbar(props) {
     <React.Fragment>
       <CssBaseline />
       <AppBar position="fixed" sx={{ backgroundColor: 'white', color: 'black' }}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <img
-              src={`${process.env.PUBLIC_URL}/logo.jpg`}
-              alt="Logo"
-              style={{ width: "180px", height: "50px", marginRight: "10px", cursor: "pointer" }}
-              onClick={() => navigate("/")}
-            />
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <img
+      src={`${process.env.PUBLIC_URL}/logo.jpg`}
+      alt="Logo"
+      style={{ width: "180px", height: "50px", marginRight: "10px", cursor: "pointer" }}
+      onClick={() => navigate("/")}
+    />
+    {isMobile ? (
+      <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
+        <MenuIcon />
+      </IconButton>
+    ) : (
+      <Typography variant="h6" component="div">
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          {/* Tutorials Button */}
+          <Button color="inherit" onClick={handleTutorialsClick} disableRipple sx={{ position: 'relative', '&:hover::after': { content: '""', position: 'absolute', left: 0, bottom: '-2px', width: '100%', height: '2px', backgroundColor: '#233c7b', } }}> Tutorials </Button>
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleTutorialsClose}>
+            <MenuItem onClick={handleSQLClick}>SQL</MenuItem>
+          </Menu>
 
-            {isMobile ? (
-              <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerToggle}>
-                <MenuIcon />
-              </IconButton>
-            ) : (
-              <Typography variant="h6" component="div">
-                <Box sx={{ display: 'flex', gap: 2 }}>
-  {/* Tutorials Dropdown */}
-  <Button 
-    color="inherit" 
-    onClick={handleTutorialsClick}
-    disableRipple
-    sx={{ 
-      position: 'relative', 
-      '&:hover::after': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        bottom: '-2px',
-        width: '100%',
-        height: '2px',
-        backgroundColor: '#233c7b',
-      }
-    }}
-  >
-    Tutorials
-  </Button>
-  <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleTutorialsClose}>
-    <MenuItem onClick={handleSQLClick}>SQL</MenuItem>
-  </Menu>
+          {/* Exercise Button */}
+          <Button color="inherit" onClick={() => navigate('/exercise')} disableRipple sx={{ position: 'relative', '&:hover::after': { content: '""', position: 'absolute', left: 0, bottom: '-2px', width: '100%', height: '2px', backgroundColor: '#233c7b', } }}> Exercise </Button>
 
-  {/* Exercise Button */}
-  <Button 
-    color="inherit" 
-    onClick={() => navigate('/exercise')}
-    disableRipple
-    sx={{ 
-      position: 'relative', 
-      '&:hover::after': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        bottom: '-2px',
-        width: '100%',
-        height: '2px',
-        backgroundColor: '#233c7b',
-      }
-    }}
-  >
-    Exercise
-  </Button>
+          {/* Trainings Button */}
+          <Button color="inherit" onClick={handleTrainingsMenuOpen} disableRipple sx={{ position: 'relative', '&:hover::after': { content: '""', position: 'absolute', left: 0, bottom: '-2px', width: '100%', height: '2px', backgroundColor: '#233c7b', } }}> Trainings </Button>
+          <Menu anchorEl={anchorElTrainings} open={Boolean(anchorElTrainings)} onClose={handleTrainingsMenuClose}>
+            <MenuItem onClick={() => { navigate('/'); handleTrainingsMenuClose(); }}>DATA ENG.</MenuItem>
+            <MenuItem onClick={handleFECivilClick}>FE Civil</MenuItem>
+            <MenuItem onClick={handleSnowflakeClick}>SNOWFLAKE</MenuItem>
+            <MenuItem onClick={handleEngClick}>ENGLISH SPEAKING</MenuItem>
+          </Menu>
 
-  {/* Trainings Dropdown */}
-  <Button 
-    color="inherit" 
-    onClick={handleTrainingsMenuOpen}
-    disableRipple
-    sx={{ 
-      position: 'relative', 
-      '&:hover::after': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        bottom: '-2px',
-        width: '100%',
-        height: '2px',
-        backgroundColor: '#233c7b',
-      }
-    }}
-  >
-    Trainings
-  </Button>
-  <Menu anchorEl={anchorElTrainings} open={Boolean(anchorElTrainings)} onClose={handleTrainingsMenuClose}>
-  <MenuItem onClick={() => { navigate('/'); handleTrainingsMenuClose(); }}>DATA ENG.</MenuItem>
-  <MenuItem onClick={handleFECivilClick}>FE Civil</MenuItem>
-  <MenuItem onClick={handleSnowflakeClick}>SNOWFLAKE</MenuItem>
-  
-</Menu>
+          {/* Udemy Button */}
+          <Button color="inherit" onClick={() => navigate('/udemy_course')} disableRipple sx={{ position: 'relative', '&:hover::after': { content: '""', position: 'absolute', left: 0, bottom: '-2px', width: '100%', height: '2px', backgroundColor: '#233c7b', } }}> Udemy </Button>
+        </Box>
+      </Typography>
+    )}
+  </Box>
 
-  
-</Box>
+  {/* Login Button (Moved to the Right) */}
+  <Box sx={{ marginLeft: 'auto' }}>
+    <Button variant="contained" color="primary" onClick={() => navigate('/admin')}>
+      Login
+    </Button>
+  </Box>
+</Toolbar>
 
-              </Typography>
-            )}
-          </Box>
-        </Toolbar>
       </AppBar>
 
-      {/* Mobile Drawer */}
-      <Drawer anchor="left" open={mobileOpen} onClose={handleDrawerToggle}>
+       {/* Mobile Drawer */}
+       <Drawer anchor="left" open={mobileOpen} onClose={handleDrawerToggle}>
         <List>
           {/* Tutorials Section */}
           <ListItem button onClick={handleMobileTutorialsClick}>
@@ -215,9 +178,14 @@ export default function Navbar(props) {
     <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/snowflake'); handleDrawerToggle(); }}>
       <ListItemText primary="SNOWFLAKE" />
     </ListItem>
-                                                                                                                                                                                                         
+    <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/eng'); handleDrawerToggle(); }}>
+      <ListItemText primary="ENGLISH SPEAKING" />
+    </ListItem>
     
-    
+    {/* Mobile Udemy Option */}
+    <ListItem button onClick={() => { navigate('/udemy_course'); handleDrawerToggle(); }}>
+      <ListItemText primary="Udemy" />
+    </ListItem>
   </List>
 </Collapse>
 

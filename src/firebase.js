@@ -1,9 +1,9 @@
 // src/firebase.js
 
-// Import the functions you need from the SDKs
+// Import Firebase modules
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore"; // Firestore for database
+import { getFirestore, collection, addDoc } from "firebase/firestore"; // Firestore
 import { getAuth } from "firebase/auth"; // Authentication (if needed)
 
 // Your web app's Firebase configuration
@@ -20,8 +20,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-// Export Firebase services
-export const db = getFirestore(app); // Firestore for database
-export const auth = getAuth(app); // Authentication
+// Export Firestore methods
+export { db, auth, collection, addDoc };
 export default app;

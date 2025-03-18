@@ -9,7 +9,8 @@ const cliProgress = require('cli-progress'); // Progress bar package
 const csvFilePath = './edufulnessC.csv';
 
 // **Logging File**
-const logFile = path.resolve("C:/Users/siddhant/Documents/Web-Dev/w3/w3.1/w3/src/email_log.txt");
+const logFile = path.resolve("C:/Users/Administrator/Documents/email_log.txt");
+
 
 // **SMTP Configuration**
 const transporter = nodemailer.createTransport({
@@ -57,23 +58,31 @@ const readRecipientsFromCSV = async (filePath) => {
 
 // **Log Emails**
 const logEmail = async (recipient, success, error = null) => {
+    const logDir = path.dirname(logFile); // Get directory path
     const timestamp = new Date().toISOString();
+    
     let logEntry = `${timestamp},${recipient.name},${recipient.email},${success ? 'Success' : 'Failed'}`;
     if (error) logEntry += ` - Error: ${error.message || error}`;
     logEntry += '\n';
 
     try {
+        // Ensure directory exists
+        await fsPromises.mkdir(logDir, { recursive: true });
+
+        // Append to log file
         await fsPromises.appendFile(logFile, logEntry);
+        console.log(`📜 Log updated for: ${recipient.email}`);
     } catch (err) {
         console.error("❌ Error writing to log file:", err);
     }
 };
 
+
 // **Send an Email**
 const sendEmail = async (recipient) => {
     const { email, name } = recipient;
 
-    const subject = `🌟 Upcoming Data Engineering Course Free Demo 🌟  | Edufulness`;
+    const subject = `Snowflake Training - Demo Session This Sunday!* `;
 
     const htmlBody = `
     <div style="font-family: 'Arial', sans-serif; line-height: 1.6; color: #333;">
@@ -82,62 +91,60 @@ const sendEmail = async (recipient) => {
             <img src="https://edufulness.in/logo.jpg" alt="Edufulness Logo" style="max-width: 200px;">
         </header>
         <header style="background-color: #0078d7; color: #fff; padding: 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px;">Azure Data Engineering Training</h1>
+            <h1 style="margin: 0; font-size: 24px;">Snowflake Training</h1>
         </header>
 
         <main style="padding: 20px;">
-
-    <h2 style="text-align: center; color: #0078d7;">🌟 Free Demo Session Invite!🌟</h2>
-
-    <p><strong>Hello! 🌟</strong></p>
-
-    <p>Thank you for your interest in our <strong>Azure Data Engineering Training!</strong> 🎉 We’re excited to invite you to a <strong>free demo session</strong> on <strong>Sunday, March 2, 2025, at 10:00 AM IST.</strong></p>
-
-    <h3>🔹 What You’ll Learn 🔹</h3>
+    <h2 style="text-align: center; color: #0078d7;"></h2>
+    
+    <p>Hi ${name},</p>
+    <p>Unlock the power of <strong>SNOWFLAKE</strong> with our expert-led training! Join our <strong>free demo session</strong> this Sunday at 8:30 PM IST and explore real-time data solutions.  </p>
+    <p>📅 *Date:* Sunday, 09-03-2025</p>
+    <p>⏰ *Time:* 8:30 PM IST </p>
+    <p> <a href="https://us06web.zoom.us/meeting/register/kO7bH6svQy6MR0MYZ6av6w" target="_blank" style="color: #0078d7; text-decoration: none;"><strong>Register Now</strong></a></p>
+    
+    
+    <p><strong>What You’ll Learn: </strong></p>
     <ul>
-        <li><strong>Azure SQL Server</strong></li>
-        <li><strong>Data Factory</strong></li>
-        <li><strong>Microsoft Fabric</strong></li>
-        <li><strong>Synapse Analytics</strong></li>
-        <li><strong>Databricks (PySpark, Delta Lake)</strong></li>
-        <li><strong>Data Lake & Blob Storage</strong></li>
-        <li><strong>Key Vault</strong></li>
-        <li>...and much more, with expert-led, hands-on insights! 🤖</li>
+        <li> <em>✅ Snowflake Fundamentals </em></li>
+        <li> <em>✅ Real-Time Data Processing </em></li>
+        <li><em>✅ Hands-on Use Cases  </em></li>
     </ul>
-
-    <h3>📅 Demo Session Details 📅</h3>
-    <ul>
-        <li><strong>Date:</strong> Sunday, March 2, 2025</li>
-        <li><strong>Time:</strong> 10:00 AM IST</li>
-        <li><strong>Join via Zoom:</strong> <a href="https://us06web.zoom.us/meeting/register/yohKDL8xRe6svihUJqL2ew" target="_blank" style="color: #0078d7; text-decoration: none;">Join Here</a> 🤝</li>
-    </ul>
-
-    <h3>📢 Stay Connected & Learn More 📢</h3>
-    <p>💬 <strong>Join Our WhatsApp Community:</strong> <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">Click Here</a></p>
-    <p>📺 <strong>Watch Free Tutorials on YouTube:</strong> <a href="https://www.youtube.com/@EduFulnessEFN" target="_blank" style="color: #0078d7; text-decoration: none;">Subscribe Now</a></p>
-
-    <p>This session is your <strong>stepping stone</strong> to mastering <strong>Azure technologies</strong> with <strong>real-world projects, practical scenarios, and expert guidance.</strong> 🎓</p>
-
-    <p>🔥 <strong>Don’t miss this chance to level up your skills!</strong> 🚀</p>
-
-    <p>For any queries, feel free to reach out.</p>
-
-    <p><strong>Best regards,</strong> 🙏<br>
-        <strong>Atchyut Kumar</strong><br>
-        <strong>Azure Data Engineering Instructor, Edufulness</strong><br>
-        📞 <strong>Call/WhatsApp:</strong> <a href="tel:+919567034641" style="color: #0078d7; text-decoration: none;">9567034641</a><br>
-        📞 <strong>Call Only:</strong> <a href="tel:+919392955424" style="color: #0078d7; text-decoration: none;">9392955424</a>
+    
+    <p>🔥 *Limited Seats Available!* Don’t miss this opportunity to upskill with *Edufulness!*  </p>
+    
+    <p>💬 <strong>Join our WhatsApp community</strong> for updates: <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">Join Now</a></p>
+    <p>See you in the session! </p>
+    <p>For any questions, feel free to reach out.</p>
+    
+    <p><strong>Best regards,</strong><br>
+        <strong>Srinivas & Atchyut</strong><br>
+        <strong>Edufulness Training Team</strong><br>
+        📞 <strong>Mob:</strong> <a href="tel:+919567034641" style="color: #0078d7; text-decoration: none;">9567034641</a>
     </p>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.icons8.com/?size=100&id=7OeRNqg6S7Vf&format=png&color=00BE98" alt="Join WhatsApp Group" style="width: 40px; height: 40px;">
-        </a>
-        <a href="https://www.youtube.com/@EdufulnessEFN" target="_blank" rel="noopener noreferrer" style="margin-left: 15px;">
-            <img src="https://img.freepik.com/premium-vector/red-youtube-logo-social-media-logo_197792-1803.jpg?w=360" alt="Subscribe on YouTube" style="width: 40px; height: 40px;">
-        </a>
-    </div>
+    <div style="margin-top: 30px; text-align: center;">
+            <table align="center" style="border-collapse: collapse;">
+              <tr>
+                <td style="padding: 10px; text-align: center;">
+                  <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.icons8.com/?size=100&id=7OeRNqg6S7Vf&format=png&color=00BE98" alt="WhatsApp Icon" style="width: 40px; height: 40px;">
+                  </a>
+                  <div style="font-size: 14px; font-weight: bold; margin-top: 5px; color: #00BE98;">Join Our Group</div>
+                </td>
+                <td style="padding: 10px; text-align: center;">
+                  <a href="https://www.youtube.com/@EdufulnessEFN" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.freepik.com/premium-vector/red-youtube-logo-social-media-logo_197792-1803.jpg?w=360" alt="YouTube Icon" style="width: 40px; height: 40px;">
+                  </a>
+                  <div style="font-size: 14px; font-weight: bold; margin-top: 5px; color: #FF0000;">Subscribe</div>
+                </td>
+              </tr>
+            </table>
+          </div>
 </main>
+
+
+
 
         <footer style="background-color: #f8f8f8; color: #666; text-align: center; padding: 10px; font-size: 12px;">
             © 2025 Edufulness. All rights reserved.

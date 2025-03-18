@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 import "./Banner.css"; // Import the existing CSS file for additional custom styles
 import SimpleGrid from "./Timeline";
 import { Accordion, Container,Row, Col } from 'react-bootstrap';
 import { db } from "./firebase"; // Import Firestore
-import { collection, addDoc } from "firebase/firestore"; // Functions to interact with Firestore
+import { collection, query, where, getDocs , addDoc } from "firebase/firestore"; // Functions to interact with Firestore
 import RegistrationForm from './components/registrationForm';
 import Roadmap from './components/roadmap';
 import SimpleAccordion from './accordian2';
@@ -12,6 +12,39 @@ import SimpleAccordion from './accordian2';
 
 
 const Banner = () => {
+
+  const [liveClassInfo, setLiveClassInfo] = useState({
+    date: "Loading...",
+    time: "Loading...",
+  });
+
+  // Fetch Date & Time from Firestore for F.E. Civil
+  useEffect(() => {
+    const fetchLiveClassInfo = async () => {
+      try {
+        const q = query(
+          collection(db, "courseSchedules"),
+          where("name", "==", "F.E. Civil") // Fetch only F.E. Civil course
+        );
+
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const docData = querySnapshot.docs[0].data(); // Assuming only one entry
+          setLiveClassInfo({
+            date: docData.date,
+            time: docData.time,
+          });
+        } else {
+          console.error("No matching document found!");
+        }
+      } catch (error) {
+        console.error("Error fetching live class data:", error);
+      }
+    };
+
+    fetchLiveClassInfo();
+  }, []);
+
 
   const [formData, setFormData] = useState({
     UserName: "",
@@ -62,7 +95,7 @@ const Banner = () => {
           <div className="row justify-content-around align-items-center">
             {/* Left Section */}
             <div className="left-section col-md-6">
-              <h1 className="heading">Data Engineering Course</h1>
+              <h1 className="heading">Data Engineering Course.</h1>
               <h3 className="subheading">From Design To Implementation!</h3>
               <ul>
                 <li>100% Placement Support</li>
@@ -72,8 +105,8 @@ const Banner = () => {
                 <li>Edufulness Certification</li>
               </ul>
               <h4 className="live-class">
-                Live Online Classes | 02-March-2025 10:00AM IST (Sunday)
-              </h4>
+              Live Online Classes | {liveClassInfo.date} {liveClassInfo.time} IST (Sunday)
+            </h4>
             </div>
 
             {/* Right Section */}
@@ -83,7 +116,7 @@ const Banner = () => {
               {/* Live Class Alert */}
               <h3 className="live-class-alert text-info text-center mb-4">
                 Live Online Classes <br />
-                02-March-2025 10:00AM IST <br />
+                {liveClassInfo.date} {liveClassInfo.time} IST <br />
                 (Sunday)
               </h3>
               {/* Form */}

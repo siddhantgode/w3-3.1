@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 import "./Banner.css"; // Import the existing CSS file for additional custom styles
 import SimpleGrid from "./Timeline";
 import { Accordion, Container,Row, Col } from 'react-bootstrap';
 import { db } from "./firebase"; // Import Firestore
-import { collection, addDoc } from "firebase/firestore"; // Functions to interact with Firestore
+import { collection, query, where, getDocs ,addDoc} from "firebase/firestore"
 import RegistrationForm from './components/registrationForm';
 import Roadmap from './components/roadmap';
 import CustomAccordion from './accordian';
@@ -12,6 +12,37 @@ import CustomAccordion from './accordian';
 
 
 const Banner1 = () => {
+
+  const [liveClassInfo, setLiveClassInfo] = useState({
+    date: "Loading...",
+    time: "Loading...",
+  });
+
+  useEffect(() => {
+    const fetchLiveClassInfo = async () => {
+      try {
+        const q = query(
+          collection(db, "courseSchedules"),
+          where("name", "==", "F.E. Civil") // Fetch only F.E. Civil course
+        );
+
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const docData = querySnapshot.docs[0].data(); // Assuming only one entry
+          setLiveClassInfo({
+            date: docData.date,
+            time: docData.time,
+          });
+        } else {
+          console.error("No matching document found!");
+        }
+      } catch (error) {
+        console.error("Error fetching live class data:", error);
+      }
+    };
+
+    fetchLiveClassInfo();
+  }, []);
 
   const [formData, setFormData] = useState({
     UserName: "",
@@ -217,39 +248,42 @@ const Banner1 = () => {
     <div>
       {/* Existing Section */}
       <div className="civil-section">
-        <div className="container">
-          <div className="row justify-content-around align-items-center">
-            {/* Left Section */}
-            <div className="left-section col-md-6">
-              <h1 className="heading">FE Civil Engineering Course</h1>
-              <h3 className="subheading">Comprehensive preparation for the FE Civil Exam with expert guidance
-              and resources</h3>
-              <ul>
+      <div className="container">
+        <div className="row justify-content-around align-items-center">
+          {/* Left Section */}
+          <div className="left-section col-md-6">
+            <h1 className="heading">FE Civil Engineering Course</h1>
+            <h3 className="subheading">
+              Comprehensive preparation for the FE Civil Exam with expert
+              guidance and resources
+            </h3>
+            <ul>
               <li>200+ Hours of Comprehensive Lectures covering all key topics.</li>
-                <li>Weekly Tests & Assessments to track progress.</li>
-                <li>Dedicated Doubt-Solving Sessions for better understanding.</li>
-                <li> Well-Explained Examples for concept clarity.</li>
-                <li>Smart Shortcuts & Tricks to solve problems efficiently.</li>
-              </ul>
-              <h4 className="live-class">
-                Live Online Classes | 02-March-2025 10:00AM IST (Sunday)
-              </h4>
-            </div>
+              <li>Weekly Tests & Assessments to track progress.</li>
+              <li>Dedicated Doubt-Solving Sessions for better understanding.</li>
+              <li>Well-Explained Examples for concept clarity.</li>
+              <li>Smart Shortcuts & Tricks to solve problems efficiently.</li>
+            </ul>
+            
+            {/* Dynamic Date & Time from Firestore */}
+            <h4 className="live-class">
+              Live Online Classes | {liveClassInfo.date} {liveClassInfo.time} IST (Sunday)
+            </h4>
+          </div>
 
-            {/* Right Section */}
-            <div className="right-section col-md-5 bg-light shadow rounded p-4 mx-auto">
-              {/* Form Heading */}
-              <h2 className="text-center mb-3">JOIN THE COURSE</h2>
-              {/* Live Class Alert */}
-              
-              {/* Form */}
-              <img
-  src="\images\a_civil_engineer_in_a_blue_hard.jpeg"
-  alt="Azure Data Factory"
-  className="img-fluid"
-  style={{ marginBottom: '10px' }} // Inline style
-/>
-      <button
+          {/* Right Section */}
+          <div className="right-section col-md-5 bg-light shadow rounded p-4 mx-auto">
+            {/* Form Heading */}
+            <h2 className="text-center mb-3">JOIN THE COURSE</h2>
+
+            {/* Form */}
+            <img
+              src="\images\a_civil_engineer_in_a_blue_hard.jpeg"
+              alt="Azure Data Factory"
+              className="img-fluid"
+              style={{ marginBottom: "10px" }} // Inline style
+            />
+            <button
               type="button"
               className="btn btn-primary whyChooseModalButton"
               data-bs-toggle="modal"
@@ -257,10 +291,10 @@ const Banner1 = () => {
             >
               Enroll Now
             </button>
-            </div>
           </div>
         </div>
       </div>
+    </div>
 
       {/* New Section: Azure Data Engineering Courses start*/}
       <section className="py-5 bg-white">

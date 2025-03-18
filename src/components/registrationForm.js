@@ -7,6 +7,7 @@ function RegistrationForm() {
     UserName: "",
     EmailID: "",
     PhoneNumber: "",
+    Course: "", // Added Course field
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false); // State for toast visibility
@@ -32,7 +33,7 @@ function RegistrationForm() {
       setShowToast(true); // Show toast on success
 
       // Clear form fields
-      setFormData({ UserName: "", EmailID: "", PhoneNumber: "" });
+      setFormData({ UserName: "", EmailID: "", PhoneNumber: "", Course: "" });
 
       // Automatically hide toast after 5 seconds
       setTimeout(() => setShowToast(false), 5000);
@@ -52,8 +53,7 @@ function RegistrationForm() {
       {/* Live Class Alert */}
       <h3 className="live-class-alert text-info text-center mb-4">
         Live Online Classes <br />
-        02-March-2025 10:00AM IST <br />
-        (Sunday)
+        
       </h3>
 
       {/* Form */}
@@ -107,6 +107,26 @@ function RegistrationForm() {
             onChange={handleInputChange}
             required
           />
+        </div>
+
+        {/* Course Dropdown Field */}
+        <div className="mb-3">
+          <label htmlFor="Course" className="form-label">
+            Course
+          </label>
+          <select
+            name="Course"
+            className="form-control"
+            id="Course"
+            value={formData.Course}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Select a course</option>
+            <option value="Data Eng.">Data Eng.</option>
+            <option value="FE Civil">FE Civil</option>
+            <option value="Snowflake">Snowflake</option>
+          </select>
         </div>
 
         {/* Submit Button */}

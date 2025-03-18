@@ -14,6 +14,8 @@ import FeCivil from './courses/feCivil';
 import Banner1 from './Banner copy';
 import CustomAccordion from './accordian';
 import SimpleAccordion from './accordian2';
+import CourseGallery from './courses/udemy';
+import LoginPage from './components/admin';
 
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -21,6 +23,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Home from './Home';
 import Banner2 from './Banner copy 2';
 import EngCourse from './Banner copy 3';
+import SqlCourse from './Banner copy 4';
 
 function App() {
   return (
@@ -42,6 +45,10 @@ function App() {
                 <Route path="/test" element={<CustomAccordion/>} />
                 <Route path="/snowflake" element={<Banner2/>} />
                 <Route path="/eng" element={<EngCourse/>} />
+                <Route path="/sql_course" element={<SqlCourse/>} />
+                <Route path="/udemy_course" element={<CourseGallery/>} />
+                <Route path="/admin" element={<LoginPage/>} />
+
               </Routes>
             </main>
           </Col>

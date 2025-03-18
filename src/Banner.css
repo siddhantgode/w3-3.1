@@ -16,6 +16,13 @@
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 }
 
+.sql-section {
+  background: linear-gradient(256.6deg, #0dbb07 -10.74%, #233c7b 64.8%);
+  color: white;
+  padding: 50px 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
 .eng-section {
   background: linear-gradient(256.6deg, #f1e20f -10.74%, #233c7b 64.8%);
   color: white;
