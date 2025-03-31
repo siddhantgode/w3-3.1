@@ -1,15 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "../firebase"; // Ensure db is imported correctly
 import { doc, setDoc, getDocs, query, where, collection } from "firebase/firestore";
-
+import Papa from "papaparse"; 
 
 function LoginPage() {
+  const downloadCSV = () => {
+    if (registeredUsers.length === 0) {
+      alert("No registered users to download!");
+      return;
+    }
+  
+    const csvData = registeredUsers.map(user => ({
+      Name: user.UserName || "N/A",
+      Email: user.EmailID || "N/A",
+      "Phone Number": user.PhoneNumber || "N/A",
+      Course: user.Course || "N/A"
+    }));
+  
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "registered_users.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
+
+
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [registeredUsers, setRegisteredUsers] = useState([]); // State to store registered users
 
   // State for storing date and time values per course
   const [courseSchedules, setCourseSchedules] = useState([
@@ -18,6 +46,27 @@ function LoginPage() {
     { name: "F.E. Civil", date: "2025-03-02", time: "10:00" },
     { name: "English Speaking", date: "2025-03-02", time: "10:00" },
   ]);
+
+  // Fetch registered users from Firestore
+  useEffect(() => {
+    const fetchRegisteredUsers = async () => {
+      try {
+        const usersCollection = collection(db, "formSubmissions");
+        const querySnapshot = await getDocs(usersCollection);
+
+        const usersList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setRegisteredUsers(usersList);
+      } catch (error) {
+        console.error("Error fetching registered users:", error);
+      }
+    };
+
+    fetchRegisteredUsers();
+  }, []);
 
   // Handle input changes for date & time pickers
   const handleScheduleChange = (index, field, value) => {
@@ -31,22 +80,26 @@ function LoginPage() {
     try {
       const selectedCourse = courseSchedules[index];
       const courseCollectionRef = collection(db, "courseSchedules");
-  
+
       // Query Firestore to check if this course already exists
       const q = query(courseCollectionRef, where("name", "==", selectedCourse.name));
       const querySnapshot = await getDocs(q);
-  
+
       if (!querySnapshot.empty) {
         // If course exists, get the document ID and update it
         const docId = querySnapshot.docs[0].id;
         const courseDocRef = doc(db, "courseSchedules", docId);
-  
-        await setDoc(courseDocRef, {
-          name: selectedCourse.name,
-          date: selectedCourse.date,
-          time: selectedCourse.time,
-        }, { merge: true });
-  
+
+        await setDoc(
+          courseDocRef,
+          {
+            name: selectedCourse.name,
+            date: selectedCourse.date,
+            time: selectedCourse.time,
+          },
+          { merge: true }
+        );
+
         alert(`✅ Updated: ${selectedCourse.name} - ${selectedCourse.date} at ${selectedCourse.time}`);
       } else {
         // If course doesn't exist, create a new document
@@ -56,14 +109,14 @@ function LoginPage() {
           date: selectedCourse.date,
           time: selectedCourse.time,
         });
-  
+
         alert(`✅ Saved: ${selectedCourse.name} - ${selectedCourse.date} at ${selectedCourse.time}`);
       }
     } catch (error) {
       console.error("❌ Error saving data:", error);
       alert("❌ Failed to save data. Please try again.");
     }
-  }; 
+  };
 
   // Handle login
   const handleLogin = (e) => {
@@ -78,16 +131,16 @@ function LoginPage() {
 
   return (
     <div className="container-fluid mt-5">
-      <div className="col-lg-10 mx-auto bg-light p-3 shadow rounded text-center">
+      <div className="col-lg-10 mx-auto  p-3 shadow rounded text-center">
         {isLoggedIn ? (
           <>
             <h2 className="text-success">Welcome, {credentials.username}!</h2>
-  
+
             {/* Edit Form Dates Section */}
             <div className="mt-3 p-3 bg-secondary text-white rounded">
               Edit Form Dates
             </div>
-  
+
             {/* Centering Table */}
             <div className="d-flex justify-content-center">
               <div className="table-responsive mt-3">
@@ -109,9 +162,7 @@ function LoginPage() {
                             type="date"
                             className="form-control form-control-sm"
                             value={course.date}
-                            onChange={(e) =>
-                              handleScheduleChange(index, "date", e.target.value)
-                            }
+                            onChange={(e) => handleScheduleChange(index, "date", e.target.value)}
                           />
                         </td>
                         <td>
@@ -119,16 +170,11 @@ function LoginPage() {
                             type="time"
                             className="form-control form-control-sm"
                             value={course.time}
-                            onChange={(e) =>
-                              handleScheduleChange(index, "time", e.target.value)
-                            }
+                            onChange={(e) => handleScheduleChange(index, "time", e.target.value)}
                           />
                         </td>
                         <td>
-                          <button
-                            className="btn btn-success btn-sm"
-                            onClick={() => handleSave(index)}
-                          >
+                          <button className="btn btn-success btn-sm" onClick={() => handleSave(index)}>
                             Save
                           </button>
                         </td>
@@ -138,9 +184,54 @@ function LoginPage() {
                 </table>
               </div>
             </div>
-          </>
+
+            
+    {/* Registered Users Section */}
+    <div className="mt-5 p-3 bg-info text-white rounded d-flex justify-content-between align-items-center">
+      <span>Registered Users</span>
+      <button className="btn btn-light btn-sm" onClick={downloadCSV}>
+        Download CSV
+      </button>
+    </div>
+
+    {/* Scrollable Table */}
+    <div className="d-flex justify-content-center">
+      <div
+        className="table-responsive mt-3"
+        style={{ maxHeight: "300px", overflowY: "auto", width: "100%" }}
+      >
+        <table className="table table-bordered table-sm text-center">
+          <thead className="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Course</th>
+            </tr>
+          </thead>
+          <tbody>
+            {registeredUsers.length > 0 ? (
+              registeredUsers.map((user, index) => (
+                <tr key={index}>
+                  <td>{user.UserName || "N/A"}</td>
+                  <td>{user.EmailID || "N/A"}</td>
+                  <td>{user.PhoneNumber || "N/A"}</td>
+                  <td>{user.Course || "N/A"}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4">No registered users found</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </>
         ) : (
-          <>
+          <><div className="d-flex justify-content-center align-items-center vh-100">
+          <div className="bg-light p-4 shadow rounded" style={{ width: "350px" }}>
             <h2 className="text-center mb-3">Login</h2>
             <form onSubmit={handleLogin}>
               <div className="mb-3">
@@ -151,9 +242,7 @@ function LoginPage() {
                   className="form-control"
                   placeholder="Enter your username"
                   value={credentials.username}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, username: e.target.value })
-                  }
+                  onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
                   required
                 />
               </div>
@@ -165,9 +254,7 @@ function LoginPage() {
                   className="form-control"
                   placeholder="Enter your password"
                   value={credentials.password}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, password: e.target.value })
-                  }
+                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                   required
                 />
               </div>
@@ -175,13 +262,13 @@ function LoginPage() {
                 {isLoggingIn ? "Logging in..." : "Login"}
               </button>
             </form>
-          </>
+          </div>
+        </div>
+                  </>
         )}
       </div>
     </div>
   );
-  
-  
 }
 
 export default LoginPage;

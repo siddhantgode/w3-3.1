@@ -82,48 +82,57 @@ const logEmail = async (recipient, success, error = null) => {
 const sendEmail = async (recipient) => {
     const { email, name } = recipient;
 
-    const subject = `Snowflake Training - Demo Session This Sunday!* `;
+    const subject = `Azure Data Engineering - Demo Session  `;
 
     const htmlBody = `
-    <div style="font-family: 'Arial', sans-serif; line-height: 1.6; color: #333;">
+   <div style="font-family: 'Arial', sans-serif; line-height: 1.6; color: #333;">
     <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 5px; padding: 30px;">
         <header style="text-align: center; padding-bottom: 20px;">
             <img src="https://edufulness.in/logo.jpg" alt="Edufulness Logo" style="max-width: 200px;">
         </header>
         <header style="background-color: #0078d7; color: #fff; padding: 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px;">Snowflake Training</h1>
+            <h1 style="margin: 0; font-size: 24px;">🚀 Azure Data Engineering Training - Free Demo!</h1>
         </header>
 
         <main style="padding: 20px;">
-    <h2 style="text-align: center; color: #0078d7;"></h2>
-    
-    <p>Hi ${name},</p>
-    <p>Unlock the power of <strong>SNOWFLAKE</strong> with our expert-led training! Join our <strong>free demo session</strong> this Sunday at 8:30 PM IST and explore real-time data solutions.  </p>
-    <p>📅 *Date:* Sunday, 09-03-2025</p>
-    <p>⏰ *Time:* 8:30 PM IST </p>
-    <p> <a href="https://us06web.zoom.us/meeting/register/kO7bH6svQy6MR0MYZ6av6w" target="_blank" style="color: #0078d7; text-decoration: none;"><strong>Register Now</strong></a></p>
-    
-    
-    <p><strong>What You’ll Learn: </strong></p>
-    <ul>
-        <li> <em>✅ Snowflake Fundamentals </em></li>
-        <li> <em>✅ Real-Time Data Processing </em></li>
-        <li><em>✅ Hands-on Use Cases  </em></li>
-    </ul>
-    
-    <p>🔥 *Limited Seats Available!* Don’t miss this opportunity to upskill with *Edufulness!*  </p>
-    
-    <p>💬 <strong>Join our WhatsApp community</strong> for updates: <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">Join Now</a></p>
-    <p>See you in the session! </p>
-    <p>For any questions, feel free to reach out.</p>
-    
-    <p><strong>Best regards,</strong><br>
-        <strong>Srinivas & Atchyut</strong><br>
-        <strong>Edufulness Training Team</strong><br>
-        📞 <strong>Mob:</strong> <a href="tel:+919567034641" style="color: #0078d7; text-decoration: none;">9567034641</a>
-    </p>
+            <p>Hello! 🌟</p>
+            <p>Thank you for your interest in our <strong>Azure Data Engineering Training</strong>! 🎉 We’re excited to invite you to a <strong>free demo session</strong> on <strong>Monday, March 31, 2025, at 08:30 PM IST</strong>.</p>
+            
+            <p><strong>What You’ll Learn:</strong></p>
+            <ul>
+                <li>✔ Azure SQL Server</li>
+                <li>✔ Data Factory</li>
+                <li>✔ Microsoft Fabric</li>
+                <li>✔ Synapse Analytics</li>
+                <li>✔ Databricks (PySpark, Delta Lake)</li>
+                <li>✔ Data Lake & Blob Storage</li>
+                <li>✔ Key Vault</li>
+                <li>...and much more, with expert-led, hands-on insights! 🤖</li>
+            </ul>
+            
+            <p><strong>Demo Session Details:</strong></p>
+            <p>📅 <strong>Date:</strong> Monday, March 31, 2025</p>
+            <p>⏰ <strong>Time:</strong> 08:30 PM IST</p>
+            <p>🔗 <strong>Join via Zoom:</strong> <a href="https://us06web.zoom.us/meeting/register/3J7LKcXqQqa-bzQ7_pj8hA" target="_blank" style="color: #0078d7; text-decoration: none;">Register Here</a> 🤝</p>
+            
+            <p><strong>📢 Stay Connected & Learn More:</strong></p>
+            <p>💬 <strong>Join Our WhatsApp Community:</strong> <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">Join Now</a></p>
+            <p>📺 <strong>Watch Free Tutorials on YouTube:</strong> <a href="https://www.youtube.com/@EduFulnessEFN" target="_blank" style="color: #0078d7; text-decoration: none;">Subscribe Now</a></p>
+            
+            <p>This session is your stepping stone to mastering Azure technologies with real-world projects, practical scenarios, and expert guidance. 🎓</p>
+            
+            <p>🔥 <strong>Don’t miss this chance to level up your skills!</strong> 🚀</p>
+            
+            <p><strong>For any queries, feel free to reach out:</strong></p>
+            <p>📞 <strong>Call/WhatsApp:</strong> 9567034641</p>
+            <p>📞 <strong>Call Only:</strong> 9392955424</p>
+            
+            <p><strong>Best regards,</strong> 🙏<br>
+            <strong>Atchyut Kumar</strong><br>
+            <strong>Azure Data Engineering Instructor, Edufulness</strong></p>
 
-    <div style="margin-top: 30px; text-align: center;">
+
+            <div style="margin-top: 30px; text-align: center;">
             <table align="center" style="border-collapse: collapse;">
               <tr>
                 <td style="padding: 10px; text-align: center;">
@@ -141,16 +150,14 @@ const sendEmail = async (recipient) => {
               </tr>
             </table>
           </div>
-</main>
-
-
-
+        </main>
 
         <footer style="background-color: #f8f8f8; color: #666; text-align: center; padding: 10px; font-size: 12px;">
             © 2025 Edufulness. All rights reserved.
         </footer>
     </div>
 </div>
+
 `;
 
     const mailOptions = {

@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.dfff9c09.css",
-    "main.js": "/static/js/main.c90fdf43.js",
+    "main.css": "/static/css/main.bc72986e.css",
+    "main.js": "/static/js/main.ddab640b.js",
     "static/js/488.c6325617.chunk.js": "/static/js/488.c6325617.chunk.js",
     "static/media/Edufulness-2.svg": "/static/media/Edufulness-2.d6fd8bc68c596ed4c2a4a4c0fea6dd50.svg",
     "index.html": "/index.html",
-    "main.dfff9c09.css.map": "/static/css/main.dfff9c09.css.map",
-    "main.c90fdf43.js.map": "/static/js/main.c90fdf43.js.map",
+    "main.bc72986e.css.map": "/static/css/main.bc72986e.css.map",
+    "main.ddab640b.js.map": "/static/js/main.ddab640b.js.map",
     "488.c6325617.chunk.js.map": "/static/js/488.c6325617.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dfff9c09.css",
-    "static/js/main.c90fdf43.js"
+    "static/css/main.bc72986e.css",
+    "static/js/main.ddab640b.js"
   ]
 }
