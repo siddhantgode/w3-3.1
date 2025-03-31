@@ -129,6 +129,96 @@ function LoginPage() {
     }, 1500);
   };
 
+  const [udemyCourses, setUdemyCourses] = useState([]);
+const [newCourse, setNewCourse] = useState({
+  id: "",
+  title: "",
+  instructor: "",
+  cost: "",
+  image: "",
+  link: "",
+  rating: "",
+  topic: "",
+});
+const [editMode, setEditMode] = useState(null); // Track editing course ID
+
+// Fetch Udemy Courses
+useEffect(() => {
+  const fetchUdemyCourses = async () => {
+    try {
+      const coursesCollection = collection(db, "udemyCourses");
+      const querySnapshot = await getDocs(coursesCollection);
+
+      const coursesList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setUdemyCourses(coursesList);
+    } catch (error) {
+      console.error("Error fetching Udemy courses:", error);
+    }
+  };
+
+  fetchUdemyCourses();
+}, []);
+
+// Handle Input Changes
+const handleCourseChange = (e) => {
+  setNewCourse({ ...newCourse, [e.target.name]: e.target.value });
+};
+
+// Add or Update Course
+const handleSaveCourse = async () => {
+  if (!newCourse.id || !newCourse.title || !newCourse.instructor || !newCourse.cost || !newCourse.image || !newCourse.link || !newCourse.rating || !newCourse.topic) {
+    alert("Please fill all fields!");
+    return;
+  }
+
+  try {
+    if (editMode) {
+      // Update existing course
+      const courseDocRef = doc(db, "udemyCourses", editMode);
+      await setDoc(courseDocRef, newCourse, { merge: true });
+
+      setUdemyCourses(udemyCourses.map(course => course.id === editMode ? { id: editMode, ...newCourse } : course));
+      setEditMode(null);
+      alert("✅ Course updated successfully!");
+    } else {
+      // Add new course
+      const newCourseRef = doc(collection(db, "udemyCourses"));
+      await setDoc(newCourseRef, newCourse);
+
+      setUdemyCourses([...udemyCourses, { id: newCourseRef.id, ...newCourse }]);
+      alert("✅ Course added successfully!");
+    }
+
+    setNewCourse({ id: "", title: "", instructor: "", cost: "", image: "", link: "", rating: "", topic: "" });
+  } catch (error) {
+    console.error("Error saving course:", error);
+    alert("❌ Failed to save course!");
+  }
+};
+
+// Delete Course
+const handleDeleteCourse = async (id) => {
+  try {
+    await setDoc(doc(db, "udemyCourses", id), {}, { merge: false }); // Deletes the document
+    setUdemyCourses(udemyCourses.filter(course => course.id !== id));
+    alert("✅ Course deleted successfully!");
+  } catch (error) {
+    console.error("Error deleting course:", error);
+    alert("❌ Failed to delete course!");
+  }
+};
+
+// Edit Course
+const handleEditCourse = (course) => {
+  setNewCourse(course);
+  setEditMode(course.id);
+};
+
+
   return (
     <div className="container-fluid mt-5">
       <div className="col-lg-10 mx-auto  p-3 shadow rounded text-center">
@@ -228,6 +318,95 @@ function LoginPage() {
         </table>
       </div>
     </div>
+
+    {/* Udemy Courses Section */}
+<div className="mt-5 p-3 bg-warning text-white rounded">
+  <h4>{editMode ? "Edit Course" : "Manage Udemy Courses"}</h4>
+</div>
+
+{/* Form to Add/Edit Course */}
+<div className="mt-3 p-3 bg-light rounded">
+  <h5>{editMode ? "Edit Course" : "Add a New Course"}</h5>
+  <div className="row">
+    <div className="col-md-2">
+      <input type="number" className="form-control" placeholder="ID" name="id" value={newCourse.id} onChange={handleCourseChange} />
+    </div>
+    <div className="col-md-2">
+      <input type="text" className="form-control" placeholder="Title" name="title" value={newCourse.title} onChange={handleCourseChange} />
+    </div>
+    <div className="col-md-2">
+      <input type="text" className="form-control" placeholder="Instructor" name="instructor" value={newCourse.instructor} onChange={handleCourseChange} />
+    </div>
+    <div className="col-md-2">
+      <input type="text" className="form-control" placeholder="Cost" name="cost" value={newCourse.cost} onChange={handleCourseChange} />
+    </div>
+    <div className="col-md-2">
+      <input type="number" className="form-control" placeholder="Rating" name="rating" value={newCourse.rating} onChange={handleCourseChange} />
+    </div>
+    <div className="col-md-2">
+      <input type="text" className="form-control" placeholder="Topic" name="topic" value={newCourse.topic} onChange={handleCourseChange} />
+    </div>
+    <div className="col-md-6 mt-2">
+      <input type="text" className="form-control" placeholder="Image URL" name="image" value={newCourse.image} onChange={handleCourseChange} />
+    </div>
+    <div className="col-md-6 mt-2">
+      <input type="text" className="form-control" placeholder="Course Link" name="link" value={newCourse.link} onChange={handleCourseChange} />
+    </div>
+    <div className="col-md-12 mt-2">
+      <button className={`btn ${editMode ? "btn-primary" : "btn-success"} w-100`} onClick={handleSaveCourse}>
+        {editMode ? "Update Course" : "Add Course"}
+      </button>
+    </div>
+  </div>
+</div>
+
+{/* Display Udemy Courses */}
+<div className="table-responsive mt-3">
+  <table className="table table-bordered table-sm text-center">
+    <thead className="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Instructor</th>
+        <th>Cost</th>
+        <th>Rating</th>
+        <th>Topic</th>
+        <th>Image</th>
+        <th>Link</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {udemyCourses.length > 0 ? (
+        udemyCourses.map((course) => (
+          <tr key={course.id}>
+            <td>{course.id}</td>
+            <td>{course.title}</td>
+            <td>{course.instructor}</td>
+            <td>{course.cost}</td>
+            <td>{course.rating}</td>
+            <td>{course.topic}</td>
+            <td>
+              <img src={course.image} alt="Course" style={{ width: "50px", height: "50px" }} />
+            </td>
+            <td>
+              <a href={course.link} target="_blank" rel="noopener noreferrer">View</a>
+            </td>
+            <td>
+              <button className="btn btn-primary btn-sm me-2" onClick={() => handleEditCourse(course)}>Edit</button>
+              <button className="btn btn-danger btn-sm" onClick={() => handleDeleteCourse(course.id)}>Delete</button>
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="9">No Udemy courses found</td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
+
   </>
         ) : (
           <><div className="d-flex justify-content-center align-items-center vh-100">
