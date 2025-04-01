@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase"; // Ensure db is imported correctly
 import { doc, setDoc, getDocs, query, where, collection } from "firebase/firestore";
+import { deleteDoc } from "firebase/firestore";
 import Papa from "papaparse"; 
 
 function LoginPage() {
@@ -41,10 +42,34 @@ function LoginPage() {
 
   // State for storing date and time values per course
   const [courseSchedules, setCourseSchedules] = useState([
-    { name: "Data Engineering", date: "2025-03-02", time: "10:00" },
-    { name: "Snowflake", date: "2025-03-02", time: "10:00" },
-    { name: "F.E. Civil", date: "2025-03-02", time: "10:00" },
-    { name: "English Speaking", date: "2025-03-02", time: "10:00" },
+    { 
+      name: "Data Engineering", 
+      date: "2025-03-02", 
+      time: "10:00", 
+      date2: "2025-03-02 10:00 AM GMT+5:30",
+      dateString: "March 2, 2025 10:00 AM GMT+5:30"
+    },
+    { 
+      name: "Snowflake", 
+      date: "2025-03-02", 
+      time: "10:00", 
+      date2: "2025-03-02 10:00 AM GMT+5:30",
+      dateString: "March 2, 2025 10:00 AM GMT+5:30"
+    },
+    { 
+      name: "F.E. Civil", 
+      date: "2025-03-02", 
+      time: "10:00", 
+      date2: "2025-03-02 10:00 AM GMT+5:30",
+      dateString: "March 2, 2025 10:00 AM GMT+5:30"
+    },
+    { 
+      name: "English Speaking", 
+      date: "2025-03-02", 
+      time: "10:00", 
+      date2: "2025-03-02 10:00 AM GMT+5:30",
+      dateString: "March 2, 2025 10:00 AM GMT+5:30"
+    },
   ]);
 
   // Fetch registered users from Firestore
@@ -80,27 +105,31 @@ function LoginPage() {
     try {
       const selectedCourse = courseSchedules[index];
       const courseCollectionRef = collection(db, "courseSchedules");
-
+  
       // Query Firestore to check if this course already exists
       const q = query(courseCollectionRef, where("name", "==", selectedCourse.name));
       const querySnapshot = await getDocs(q);
-
+  
       if (!querySnapshot.empty) {
         // If course exists, get the document ID and update it
         const docId = querySnapshot.docs[0].id;
         const courseDocRef = doc(db, "courseSchedules", docId);
-
+  
         await setDoc(
           courseDocRef,
           {
             name: selectedCourse.name,
             date: selectedCourse.date,
             time: selectedCourse.time,
+            date2: selectedCourse.date2,
+            dateString: selectedCourse.dateString,
+            previousPrice: selectedCourse.previousPrice || 0,
+            currentPrice: selectedCourse.currentPrice || 0,
           },
           { merge: true }
         );
-
-        alert(`✅ Updated: ${selectedCourse.name} - ${selectedCourse.date} at ${selectedCourse.time}`);
+  
+        alert(`Updated: ${selectedCourse.name} - ${selectedCourse.date} at ${selectedCourse.time}`);
       } else {
         // If course doesn't exist, create a new document
         const newDocRef = doc(courseCollectionRef);
@@ -108,13 +137,15 @@ function LoginPage() {
           name: selectedCourse.name,
           date: selectedCourse.date,
           time: selectedCourse.time,
+          date2: selectedCourse.date2,
+          dateString: selectedCourse.dateString,
         });
-
-        alert(`✅ Saved: ${selectedCourse.name} - ${selectedCourse.date} at ${selectedCourse.time}`);
+  
+        alert(`Saved: ${selectedCourse.name} - ${selectedCourse.date} at ${selectedCourse.time}`);
       }
     } catch (error) {
-      console.error("❌ Error saving data:", error);
-      alert("❌ Failed to save data. Please try again.");
+      console.error("Error saving data:", error);
+      alert("Failed to save data. Please try again.");
     }
   };
 
@@ -178,7 +209,7 @@ const handleSaveCourse = async () => {
   try {
     if (editMode) {
       // Update existing course
-      const courseDocRef = doc(db, "udemyCourses", editMode);
+      const courseDocRef = doc(db, "udemyCourses", editMode.toString());
       await setDoc(courseDocRef, newCourse, { merge: true });
 
       setUdemyCourses(udemyCourses.map(course => course.id === editMode ? { id: editMode, ...newCourse } : course));
@@ -201,9 +232,11 @@ const handleSaveCourse = async () => {
 };
 
 // Delete Course
+
+
 const handleDeleteCourse = async (id) => {
   try {
-    await setDoc(doc(db, "udemyCourses", id), {}, { merge: false }); // Deletes the document
+    await deleteDoc(doc(db, "udemyCourses", id));
     setUdemyCourses(udemyCourses.filter(course => course.id !== id));
     alert("✅ Course deleted successfully!");
   } catch (error) {
@@ -211,6 +244,7 @@ const handleDeleteCourse = async (id) => {
     alert("❌ Failed to delete course!");
   }
 };
+
 
 // Edit Course
 const handleEditCourse = (course) => {
@@ -226,54 +260,91 @@ const handleEditCourse = (course) => {
           <>
             <h2 className="text-success">Welcome, {credentials.username}!</h2>
 
-            {/* Edit Form Dates Section */}
-            <div className="mt-3 p-3 bg-secondary text-white rounded">
-              Edit Form Dates
-            </div>
+           {/* Edit Form Dates Section */}
+<div className="mt-3 p-3 bg-secondary text-white rounded">
+  Edit Form Dates
+</div>
 
-            {/* Centering Table */}
-            <div className="d-flex justify-content-center">
-              <div className="table-responsive mt-3">
-                <table className="table table-bordered table-sm text-center" style={{ margin: "auto" }}>
-                  <thead className="table-dark">
-                    <tr>
-                      <th style={{ width: "30%" }}>Course Name</th>
-                      <th style={{ width: "20%" }}>Date</th>
-                      <th style={{ width: "20%" }}>Time</th>
-                      <th style={{ width: "15%" }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {courseSchedules.map((course, index) => (
-                      <tr key={index}>
-                        <td>{course.name}</td>
-                        <td>
-                          <input
-                            type="date"
-                            className="form-control form-control-sm"
-                            value={course.date}
-                            onChange={(e) => handleScheduleChange(index, "date", e.target.value)}
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="time"
-                            className="form-control form-control-sm"
-                            value={course.time}
-                            onChange={(e) => handleScheduleChange(index, "time", e.target.value)}
-                          />
-                        </td>
-                        <td>
-                          <button className="btn btn-success btn-sm" onClick={() => handleSave(index)}>
-                            Save
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+{/* Centering Table */}
+<div className="d-flex justify-content-center">
+  <div className="table-responsive mt-3">
+  <table className="table table-bordered table-sm text-center" style={{ margin: "auto" }}>
+  <thead className="table-dark">
+    <tr>
+      <th style={{ width: "20%" }}>Course Name</th>
+      <th style={{ width: "15%" }}>Date</th>
+      <th style={{ width: "15%" }}>Time</th>
+      <th style={{ width: "15%" }}>Previous Price</th>
+      <th style={{ width: "15%" }}>Current Price</th>
+      <th style={{ width: "20%" }}>Date 2</th>
+      <th style={{ width: "25%" }}>Date String</th>
+      <th style={{ width: "10%" }}>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {courseSchedules.map((course, index) => (
+      <tr key={index}>
+        <td>{course.name}</td>
+        <td>
+          <input
+            type="date"
+            className="form-control form-control-sm"
+            value={course.date}
+            onChange={(e) => handleScheduleChange(index, "date", e.target.value)}
+          />
+        </td>
+        <td>
+          <input
+            type="time"
+            className="form-control form-control-sm"
+            value={course.time}
+            onChange={(e) => handleScheduleChange(index, "time", e.target.value)}
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            className="form-control form-control-sm"
+            value={course.previousPrice || ""}
+            onChange={(e) => handleScheduleChange(index, "previousPrice", e.target.value)}
+          />
+        </td>
+        <td>
+          <input
+            type="number"
+            className="form-control form-control-sm"
+            value={course.currentPrice || ""}
+            onChange={(e) => handleScheduleChange(index, "currentPrice", e.target.value)}
+          />
+        </td>
+        <td>
+          <input
+            type="datetime-local"
+            className="form-control form-control-sm"
+            value={course.date2}
+            onChange={(e) => handleScheduleChange(index, "date2", e.target.value)}
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            className="form-control form-control-sm"
+            value={course.dateString}
+            onChange={(e) => handleScheduleChange(index, "dateString", e.target.value)}
+          />
+        </td>
+        <td>
+          <button className="btn btn-success btn-sm" onClick={() => handleSave(index)}>
+            Save
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+  </div>
+</div>
+
 
             
     {/* Registered Users Section */}

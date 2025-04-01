@@ -11,24 +11,28 @@ const csvFilePath = './edufulnessC.csv';
 // **Logging File**
 const logFile = path.resolve("C:/Users/Administrator/Documents/email_log.txt");
 
-// **Email Accounts**
-const emailAccounts = [
-    { user: 'atchyut@edufulness.com', pass: 'Atchyut@1987' },
-    { user: 'learning@edufulness.in', pass: 'Edufulness@2023' }
-];
+// **SMTP Configuration with Connection Pooling**
+const transporter = nodemailer.createTransport({
+    host: 'smtp.hostinger.com',
+    port: 465,
+    secure: true,
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 100,
+    auth: {
+        user: 'atchyut@edufulness.com',
+        pass: 'Atchyut@1987',
+    },
+});
 
-// **Function to create a transporter dynamically**
-const createTransporter = (emailAccount) => {
-    return nodemailer.createTransport({
-        host: 'smtp.hostinger.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: emailAccount.user,
-            pass: emailAccount.pass,
-        },
-    });
-};
+// **Verify SMTP Connection**
+transporter.verify((error, success) => {
+    if (error) {
+        console.error("❌ SMTP Connection Error:", error);
+    } else {
+        console.log("✅ SMTP Server is ready to send emails!");
+    }
+});
 
 // **Read Recipients from CSV**
 const readRecipientsFromCSV = async (filePath) => {
@@ -63,75 +67,67 @@ const logEmail = async (recipient, success, error = null) => {
 
     try {
         await fsPromises.appendFile(logFile, logEntry);
+        console.log(`📜 Log updated for: ${recipient.email}`);
     } catch (err) {
         console.error("❌ Error writing to log file:", err);
     }
 };
 
 // **Send an Email**
-const sendEmail = async (recipient, transporter) => {
+const sendEmail = async (recipient) => {
     const { email, name } = recipient;
-    const subject = `🌟 Upcoming Data Engineering Course Free Demo 🌟  | Edufulness`;
+
+    const subject = `🚀 1 Day to Go! Azure Data Engineering Training Demo`;
 
     const htmlBody = `
     <div style="font-family: 'Arial', sans-serif; line-height: 1.6; color: #333;">
-    <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 5px; padding: 30px;">
+      <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 5px; padding: 30px;">
         <header style="text-align: center; padding-bottom: 20px;">
-            <img src="https://edufulness.in/logo.jpg" alt="Edufulness Logo" style="max-width: 200px;">
+          <img src="https://edufulness.in/logo.jpg" alt="Edufulness Logo" style="max-width: 200px;">
         </header>
         <header style="background-color: #0078d7; color: #fff; padding: 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px;">Azure Data Engineering Training</h1>
+          <h1 style="margin: 0; font-size: 24px;">Azure Data Engineering Training</h1>
         </header>
-
         <main style="padding: 20px;">
-    <h2 style="text-align: center; color: #0078d7;">🌟 Demo Recording & Regular Classes Info 🌟</h2>
-    
-    <p>Hi,</p>
-    <p>Thank you for attending our <strong>Azure Data Engineering Demo Session</strong>!</p>
-    
-    <p>📺 <strong>Demo Recording:</strong> Watch the session here: <a href="https://youtu.be/U4hfZuhWOZM" target="_blank" style="color: #0078d7; text-decoration: none;">Watch Now</a></p>
-    
-    <p>🚀 <strong>Regular Classes Start Tomorrow!</strong></p>
-    <ul>
-        <li><strong>Schedule:</strong> <em>03-03-2025 onwards, Mon-Fri, 6:30 AM - 7:30 AM IST</em></li>
-        <li><strong>Zoom Link:</strong> <a href="https://us06web.zoom.us/meeting/register/yohKDL8xRe6svihUJqL2ew" target="_blank" style="color: #0078d7; text-decoration: none;">Register Here</a></li>
-    </ul>
-    
-    <p>Stay consistent and make the most of this learning journey!</p>
-    
-    <p>💬 <strong>Join our WhatsApp community</strong> for updates: <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">Join Now</a></p>
-    <p>📺 <strong>Watch Free Tutorials on YouTube:</strong> <a href="https://www.youtube.com/@EduFulnessEFN" target="_blank" style="color: #0078d7; text-decoration: none;">Subscribe Now</a></p>
-    
-    <p>For any questions, feel free to reach out.</p>
-    
-    <p><strong>Best regards,</strong> 🙏<br>
-        <strong>Atchyut Kumar</strong><br>
-        <strong>Azure Data Engineering Instructor, Edufulness</strong><br>
-        📞 <strong>Call/WhatsApp:</strong> <a href="tel:+919567034641" style="color: #0078d7; text-decoration: none;">9567034641</a><br>
-        📞 <strong>Call Only:</strong> <a href="tel:+919392955424" style="color: #0078d7; text-decoration: none;">9392955424</a>
-    </p>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.icons8.com/?size=100&id=7OeRNqg6S7Vf&format=png&color=00BE98" alt="Join WhatsApp Group" style="width: 40px; height: 40px;">
-        </a>
-        <a href="https://www.youtube.com/@EduFulnessEFN" target="_blank" rel="noopener noreferrer" style="margin-left: 15px;">
-            <img src="https://img.freepik.com/premium-vector/red-youtube-logo-social-media-logo_197792-1803.jpg?w=360" alt="Subscribe on YouTube" style="width: 40px; height: 40px;">
-        </a>
-    </div>
-</main>
-
-
-
+          <p>Dear <strong>${name},</strong></p>
+          <p><strong>Tomorrow</strong> is your chance to join<strong> Azure Data Engineering Demo Session!</strong> 🚀</p>
+          <p>At Edufulness, we focus on practical experience and real-world applications. Our training covers:</p>
+          <ul>
+            <li>Azure SQL Server</li>
+            <li>Azure Data Factory</li>
+            <li>Azure Synapse Analytics</li>
+            <li>Azure Databricks</li>
+            <li>Logic Apps</li>
+            <li>Key Vault</li>
+            <li>Blob Storage</li>
+            <li>Azure Data Lake</li>
+          </ul>
+          <p><strong>Demo Details:</strong></p>
+          <p>
+            📅 <strong>Feb 16, 2025 (Sunday)</strong><br>
+            ⏰ <strong>10:00 AM IST</strong><br>
+            🔗 <a href="https://us06web.zoom.us/meeting/register/U29Tyf2fTt-HYNR1sxfFNA" style="color: #0078d7; text-decoration: none;">Register Here</a>
+          </p>
+          <strong>Check Our Free Tutorials on
+            <a href="https://www.youtube.com/@EdufulnessEFN" target="_blank" rel="noopener noreferrer" style="color: red; font-weight: bold; text-decoration: none;"> 
+              YouTube
+            </a>
+          </strong>
+          <p>Don’t miss this opportunity to enhance your Azure skills!</p>
+          <p>Best regards,<br>
+          <strong>Atchyut Kumar</strong><br>
+          <strong>Azure Data Engineering Instructor, Edufulness</strong><br>
+          📞 9567034641 (Call/WhatsApp)</p>
+        </main>
         <footer style="background-color: #f8f8f8; color: #666; text-align: center; padding: 10px; font-size: 12px;">
-            © 2025 Edufulness. All rights reserved.
+          © 2025 Edufulness. All rights reserved.
         </footer>
+      </div>
     </div>
-</div>
-`;
+    `;
 
     const mailOptions = {
-        from: `"Edufulness" <${transporter.options.auth.user}>`,
+        from: '"Edufulness" <atchyut@edufulness.com>',
         to: email,
         subject: subject,
         html: htmlBody,
@@ -139,7 +135,7 @@ const sendEmail = async (recipient, transporter) => {
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log(`✅ Email sent to: ${name} <${email}> using ${transporter.options.auth.user}`);
+        console.log(`✅ Email sent to: ${name} <${email}>`);
         await logEmail(recipient, true);
     } catch (error) {
         console.error(`❌ Error sending email to ${name}:`, error);
@@ -147,7 +143,15 @@ const sendEmail = async (recipient, transporter) => {
     }
 };
 
-// **Send Emails in Batches of 5 with Alternating Email Accounts**
+// **Progress Bar Setup**
+const progressBar = new cliProgress.SingleBar({
+    format: '📊 Progress | {bar} | {percentage}% || {value}/{total} Emails Sent || ⏳ ETA: {eta_formatted}',
+    barCompleteChar: '\u2588',
+    barIncompleteChar: '\u2591',
+    hideCursor: true
+});
+
+// **Send Emails in Controlled Batches**
 const sendBulkEmails = async () => {
     console.log("📤 Reading recipients from CSV...");
     const recipients = await readRecipientsFromCSV(csvFilePath);
@@ -157,42 +161,29 @@ const sendBulkEmails = async () => {
         return;
     }
 
-    console.log(`📨 Sending emails to ${recipients.length} recipients in batches of 5...`);
+    const batchSize = 5;  // Number of parallel emails
+    const batchDelay = 5000;  // 5-second delay between batches
 
-    // **Initialize Progress Bar**
-    const progressBar = new cliProgress.SingleBar({
-        format: '📧 Sending Emails [{bar}] {percentage}% | {value}/{total} emails',
-        barCompleteChar: '█',
-        barIncompleteChar: '-',
-        hideCursor: true
-    });
+    console.log(`📨 Sending emails in batches of ${batchSize}...`);
+    progressBar.start(recipients.length, 0);
 
-    progressBar.start(recipients.length, 0); // Start progress bar
+    for (let i = 0; i < recipients.length; i += batchSize) {
+        const batch = recipients.slice(i, i + batchSize);
+        const startTime = Date.now();
 
-    let batchCount = 0;
+        await Promise.all(batch.map(sendEmail));
 
-    for (let i = 0; i < recipients.length; i += 5) {
-        const batch = recipients.slice(i, i + 5);
+        progressBar.increment(batch.length, {
+            eta_formatted: Math.round(((recipients.length - i) / batchSize) * (batchDelay / 1000)) + "s"
+        });
 
-        // **Alternate between two email accounts**
-        const accountIndex = Math.floor(batchCount % 2);
-        const transporter = createTransporter(emailAccounts[accountIndex]);
-
-        await Promise.all(batch.map(recipient => sendEmail(recipient, transporter)));
-
-        progressBar.increment(batch.length); // Update progress bar
-        batchCount++;
-
-        if (batchCount % 10 === 0) {
-            console.log("⏳ Waiting for 60 seconds before continuing...");
-            await new Promise(resolve => setTimeout(resolve, 60000)); // 60-second delay
-        } else {
-            console.log("⏳ Waiting 2 seconds before next batch...");
-            await new Promise(resolve => setTimeout(resolve, 2000)); // 2-second delay between batches
+        if (i + batchSize < recipients.length) {
+            console.log(`⏳ Waiting ${batchDelay / 1000} seconds before next batch...`);
+            await new Promise(resolve => setTimeout(resolve, batchDelay));
         }
     }
 
-    progressBar.stop(); // Stop progress bar
+    progressBar.stop();
     console.log("✅ All emails have been sent successfully!");
 };
 

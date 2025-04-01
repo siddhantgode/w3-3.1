@@ -18,8 +18,8 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: 'learning@edufulness.in',  
-        pass: 'Edufulness@2023',  
+        user: 'atchyut@edufulness.com',  
+        pass: 'Atchyut@1987',  
     },
 });
 
@@ -91,45 +91,42 @@ const sendEmail = async (recipient) => {
             <img src="https://edufulness.in/logo.jpg" alt="Edufulness Logo" style="max-width: 200px;">
         </header>
         <header style="background-color: #0078d7; color: #fff; padding: 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px;">🚀 Azure Data Engineering Training - Free Demo!</h1>
+            <h1 style="margin: 0; font-size: 24px;">🚀 Azure Data Engineering - Demo Recording & Regular Classes</h1>
         </header>
 
         <main style="padding: 20px;">
-            <p>Hello! 🌟</p>
-            <p>Thank you for your interest in our <strong>Azure Data Engineering Training</strong>! 🎉 We’re excited to invite you to a <strong>free demo session</strong> on <strong>Monday, March 31, 2025, at 08:30 PM IST</strong>.</p>
+            <p>Hi,</p>
+            <p>Thank you for attending the <strong>Azure Data Engineering</strong> demo session! 🎉</p>
             
-            <p><strong>What You’ll Learn:</strong></p>
+            <p>📌 <strong>Demo Recording:</strong> Watch here 👉 <a href="https://youtu.be/c5CdeIv6Cjo" target="_blank" style="color: #0078d7; text-decoration: none;">YouTube </a></p>
+            
+            <p>🚀 <strong>Regular Classes Start from April 1, 2025!</strong></p>
+            <p>📅 <strong>Schedule:</strong> Monday to Friday</p>
+            <p>⏰ <strong>Time:</strong> 08:30 PM - 09:30 PM IST</p>
+            <p>🔗 <strong>Zoom Link:</strong> <a href="https://us06web.zoom.us/meeting/register/3J7LKcXqQqa-bzQ7_pj8hA" target="_blank" style="color: #0078d7; text-decoration: none;">Register Here</a></p>
+            
+            <p><strong>💡 Topics Covered:</strong></p>
             <ul>
-                <li>✔ Azure SQL Server</li>
-                <li>✔ Data Factory</li>
-                <li>✔ Microsoft Fabric</li>
-                <li>✔ Synapse Analytics</li>
-                <li>✔ Databricks (PySpark, Delta Lake)</li>
-                <li>✔ Data Lake & Blob Storage</li>
-                <li>✔ Key Vault</li>
-                <li>...and much more, with expert-led, hands-on insights! 🤖</li>
+                <li>Azure SQL</li>
+                <li>Data Factory</li>
+                <li>Synapse</li>
+                <li>Databricks - PySpark</li>
+                <li>Microsoft Fabric</li>
+                <li>Blob Storage</li>
+                <li>Data Lake</li>
+                <li>Delta Lake</li>
+                <li>...& more!</li>
             </ul>
             
-            <p><strong>Demo Session Details:</strong></p>
-            <p>📅 <strong>Date:</strong> Monday, March 31, 2025</p>
-            <p>⏰ <strong>Time:</strong> 08:30 PM IST</p>
-            <p>🔗 <strong>Join via Zoom:</strong> <a href="https://us06web.zoom.us/meeting/register/3J7LKcXqQqa-bzQ7_pj8hA" target="_blank" style="color: #0078d7; text-decoration: none;">Register Here</a> 🤝</p>
+            <p>💬 <strong>Join WhatsApp Community:</strong> <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">Join Now</a></p>
+            <p>📺 <strong>Watch Free Tutorials:</strong> <a href="https://www.youtube.com/@EduFulnessEFN" target="_blank" style="color: #0078d7; text-decoration: none;">Subscribe Here</a></p>
             
-            <p><strong>📢 Stay Connected & Learn More:</strong></p>
-            <p>💬 <strong>Join Our WhatsApp Community:</strong> <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">Join Now</a></p>
-            <p>📺 <strong>Watch Free Tutorials on YouTube:</strong> <a href="https://www.youtube.com/@EduFulnessEFN" target="_blank" style="color: #0078d7; text-decoration: none;">Subscribe Now</a></p>
+            <p>Looking forward to seeing you in class! 😊</p>
             
-            <p>This session is your stepping stone to mastering Azure technologies with real-world projects, practical scenarios, and expert guidance. 🎓</p>
+            <p>📞 <strong>Need help?</strong> WhatsApp: 9567034641 | Call: 9392955424</p>
             
-            <p>🔥 <strong>Don’t miss this chance to level up your skills!</strong> 🚀</p>
-            
-            <p><strong>For any queries, feel free to reach out:</strong></p>
-            <p>📞 <strong>Call/WhatsApp:</strong> 9567034641</p>
-            <p>📞 <strong>Call Only:</strong> 9392955424</p>
-            
-            <p><strong>Best regards,</strong> 🙏<br>
-            <strong>Atchyut Kumar</strong><br>
-            <strong>Azure Data Engineering Instructor, Edufulness</strong></p>
+            <p><strong>Atchyut Kumar</strong><br>
+            <strong>Azure Data Engineering Instructor | Edufulness</strong></p>
 
 
             <div style="margin-top: 30px; text-align: center;">
@@ -161,7 +158,7 @@ const sendEmail = async (recipient) => {
 `;
 
     const mailOptions = {
-        from: '"Edufulness" <learning@edufulness.in>',
+        from: '"Edufulness" <atchyut@edufulness.com>',
         to: email,
         subject: subject,
         html: htmlBody,

@@ -16,15 +16,21 @@ const Banner = () => {
   const [liveClassInfo, setLiveClassInfo] = useState({
     date: "Loading...",
     time: "Loading...",
+    dateString: "Loading...",
+  });
+  const [coursePrice, setCoursePrice] = useState({
+    previousPrice: 0,
+    currentPrice: 0,
   });
 
+  // Fetch Date & Time from Firestore for F.E. Civil
   // Fetch Date & Time from Firestore for F.E. Civil
   useEffect(() => {
     const fetchLiveClassInfo = async () => {
       try {
         const q = query(
           collection(db, "courseSchedules"),
-          where("name", "==", "F.E. Civil") // Fetch only F.E. Civil course
+          where("name", "==", "Data Engineering") // Fetch only F.E. Civil course
         );
 
         const querySnapshot = await getDocs(q);
@@ -33,6 +39,11 @@ const Banner = () => {
           setLiveClassInfo({
             date: docData.date,
             time: docData.time,
+            dateString: docData.dateString,
+          });
+          setCoursePrice({
+            previousPrice: docData.previousPrice || 0,
+            currentPrice: docData.currentPrice || 0,
           });
         } else {
           console.error("No matching document found!");
@@ -44,7 +55,6 @@ const Banner = () => {
 
     fetchLiveClassInfo();
   }, []);
-
 
   const [formData, setFormData] = useState({
     UserName: "",
@@ -105,7 +115,7 @@ const Banner = () => {
                 <li>Edufulness Certification</li>
               </ul>
               <h4 className="live-class">
-              Live Online Classes | {liveClassInfo.date} {liveClassInfo.time} IST (Sunday)
+              Live Online Classes | {liveClassInfo.dateString}
             </h4>
             </div>
 
@@ -116,7 +126,7 @@ const Banner = () => {
               {/* Live Class Alert */}
               <h3 className="live-class-alert text-info text-center mb-4">
                 Live Online Classes <br />
-                {liveClassInfo.date} {liveClassInfo.time} IST <br />
+                {liveClassInfo.dateString} <br />
                 (Sunday)
               </h3>
               {/* Form */}
@@ -424,40 +434,41 @@ const Banner = () => {
     </section>
     {/*Program Overview end */}
 {/* Take advantage of current price start */}
-<section style={{ 
-      backgroundColor: '#333', 
-      color: '#fff', 
-      padding: '20px', 
-      textAlign: 'center',
-      borderRadius: '5px', 
-      maxWidth: '580px', 
-      margin: '0 auto' 
-    }}> 
-      <div className="offer-content"> 
-        <h2 style={{ fontSize: '24px', marginBottom: '15px' }}>Take Advantage of Our Current Price</h2>
-        <div className="price">
-          <h3 style={{ fontSize: '18px', marginBottom: '5px' }}>Program Fee</h3>
-          <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
-  <span style={{ textDecoration: 'line-through' }}>₹35,000</span> ₹15,000 (Inc taxes)
-</p>
+<section style={{
+        backgroundColor: '#333',
+        color: '#fff',
+        padding: '20px',
+        textAlign: 'center',
+        borderRadius: '5px',
+        maxWidth: '580px',
+        margin: '0 auto'
+      }}>
+        <div className="offer-content">
+          <h2 style={{ fontSize: '24px', marginBottom: '15px' }}>Take Advantage of Our Current Price</h2>
+          <div className="price">
+            <h3 style={{ fontSize: '18px', marginBottom: '5px' }}>Program Fee</h3>
+            <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
+              <span style={{ textDecoration: 'line-through' }}>₹{coursePrice.previousPrice}</span> ₹{coursePrice.currentPrice} (Inc taxes)
+            </p>
+          </div>
+          <p style={{ fontSize: '14px', color: '#ff0000', marginBottom: '10px' }}>Limited Time Offer!</p>
+          <p>Evaluate the Pre-bootcamp (Free Sessions)</p>
+          <p>with 100% Refund Guarantee</p>
+          <p>7-Day Refund Policy</p>
+          <Row className="justify-content-center">
+            <Col md={4} className="text-center">
+              <button
+                type="button"
+                className="btn btn-primary whyChooseModalButton"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                Apply Now
+              </button>
+            </Col>
+          </Row>
         </div>
-        <p style={{ fontSize: '14px', color: '#ff0000', marginBottom: '10px' }}>Limited Time Offer!</p>
-        <p>Evaluate the Pre-bootcamp (Free Sessions)</p>
-        <p>with 100% Refund Guarantee</p>
-        <p>7-Day Refund Policy</p>
-        <Row className="justify-content-center">
-  <Col md={4} className="text-center">
-    <button
-              type="button"
-              className="btn btn-primary whyChooseModalButton"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
-              Apply Now
-            </button>  </Col>
-</Row>
-      </div>
-    </section>
+      </section>
 {/* Take advantage of current price end*/}
  {/*Master Data Engineering section start */}
 

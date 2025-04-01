@@ -16,36 +16,47 @@ import EngAccordion from './accordianEng';
 const EngCourse = () => {
 
   const [liveClassInfo, setLiveClassInfo] = useState({
-    date: "Loading...",
-    time: "Loading...",
-  });
-
-  // Fetch Date & Time from Firestore for F.E. Civil
-  useEffect(() => {
-    const fetchLiveClassInfo = async () => {
-      try {
-        const q = query(
-          collection(db, "courseSchedules"),
-          where("name", "==", "English Speaking") // Fetch only F.E. Civil course
-        );
-
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const docData = querySnapshot.docs[0].data(); // Assuming only one entry
-          setLiveClassInfo({
-            date: docData.date,
-            time: docData.time,
-          });
-        } else {
-          console.error("No matching document found!");
+      date: "Loading...",
+      time: "Loading...",
+      dateString: "Loading...",
+    });
+    const [coursePrice, setCoursePrice] = useState({
+      previousPrice: 0,
+      currentPrice: 0,
+    });
+  
+    // Fetch Date & Time from Firestore for F.E. Civil
+    // Fetch Date & Time from Firestore for F.E. Civil
+    useEffect(() => {
+      const fetchLiveClassInfo = async () => {
+        try {
+          const q = query(
+            collection(db, "courseSchedules"),
+            where("name", "==", "English Speaking") // Fetch only F.E. Civil course
+          );
+  
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            const docData = querySnapshot.docs[0].data(); // Assuming only one entry
+            setLiveClassInfo({
+              date: docData.date,
+              time: docData.time,
+              dateString: docData.dateString,
+            });
+            setCoursePrice({
+              previousPrice: docData.previousPrice || 0,
+              currentPrice: docData.currentPrice || 0,
+            });
+          } else {
+            console.error("No matching document found!");
+          }
+        } catch (error) {
+          console.error("Error fetching live class data:", error);
         }
-      } catch (error) {
-        console.error("Error fetching live class data:", error);
-      }
-    };
-
-    fetchLiveClassInfo();
-  }, []);
+      };
+  
+      fetchLiveClassInfo();
+    }, []);
 
   const [formData, setFormData] = useState({
     UserName: "",
@@ -265,7 +276,7 @@ const EngCourse = () => {
                 <li>Professional gromming and enhancement.</li>
               </ul>
               <h4 className="live-class">
-              Live Online Classes | {liveClassInfo.date} {liveClassInfo.time} IST (Sunday)
+              Live Online Classes | {liveClassInfo.dateString}
             </h4>
 
             </div>
@@ -708,7 +719,7 @@ const EngCourse = () => {
         <div className="price">
           <h3 style={{ fontSize: '18px', marginBottom: '5px' }}>Program Fee</h3>
           <p style={{ fontSize: '20px', fontWeight: 'bold' }}>
-  <span style={{ textDecoration: 'line-through' }}>₹30000</span> ₹15000 (Inc taxes)
+  <span style={{ textDecoration: 'line-through' }}>₹{coursePrice.previousPrice}</span> ₹{coursePrice.currentPrice} (Inc taxes)
 </p>
         </div>
         <p style={{ fontSize: '14px', color: '#ff0000', marginBottom: '10px' }}>Limited Time Offer!</p>
