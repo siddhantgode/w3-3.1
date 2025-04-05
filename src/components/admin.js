@@ -5,252 +5,215 @@ import { deleteDoc } from "firebase/firestore";
 import Papa from "papaparse"; 
 
 function LoginPage() {
-  const downloadCSV = () => {
-    if (registeredUsers.length === 0) {
-      alert("No registered users to download!");
+  
+
+  const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [registeredUsers, setRegisteredUsers] = useState([]);
+  const [filterQueries, setFilterQueries] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    course: "",
+  });
+
+  const [courseSchedules, setCourseSchedules] = useState([
+    {
+      name: "Data Engineering",
+      date: "2025-03-02",
+      time: "10:00",
+      date2: "2025-03-02 10:00 AM GMT+5:30",
+      dateString: "March 2, 2025 10:00 AM GMT+5:30",
+    },
+    {
+      name: "Snowflake",
+      date: "2025-03-02",
+      time: "10:00",
+      date2: "2025-03-02 10:00 AM GMT+5:30",
+      dateString: "March 2, 2025 10:00 AM GMT+5:30",
+    },
+    {
+      name: "F.E. Civil",
+      date: "2025-03-02",
+      time: "10:00",
+      date2: "2025-03-02 10:00 AM GMT+5:30",
+      dateString: "March 2, 2025 10:00 AM GMT+5:30",
+    },
+    {
+      name: "English Speaking",
+      date: "2025-03-02",
+      time: "10:00",
+      date2: "2025-03-02 10:00 AM GMT+5:30",
+      dateString: "March 2, 2025 10:00 AM GMT+5:30",
+    },
+  ]);
+
+  const [udemyCourses, setUdemyCourses] = useState([]);
+  const [newCourse, setNewCourse] = useState({
+    id: "",
+    title: "",
+    instructor: "",
+    cost: "",
+    image: "",
+    link: "",
+    rating: "",
+    topic: "",
+  });
+  const [editMode, setEditMode] = useState(null);
+
+  // Fetch registered users
+  useEffect(() => {
+    const fetchRegisteredUsers = async () => {
+      try {
+        const usersCollection = collection(db, "formSubmissions");
+        const snapshot = await getDocs(usersCollection);
+        const users = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setRegisteredUsers(users);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchRegisteredUsers();
+  }, []);
+
+  // Fetch Udemy courses
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "udemyCourses"));
+        const courses = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setUdemyCourses(courses);
+      } catch (error) {
+        console.error("Error fetching Udemy courses:", error);
+      }
+    };
+    fetchCourses();
+  }, []);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setIsLoggingIn(true);
+    setTimeout(() => {
+      setIsLoggingIn(false);
+      setIsLoggedIn(true);
+    }, 1500);
+  };
+
+  const handleScheduleChange = (index, field, value) => {
+    const updated = [...courseSchedules];
+    updated[index][field] = value;
+    setCourseSchedules(updated);
+  };
+
+  const handleSave = async (index) => {
+    try {
+      const selected = courseSchedules[index];
+      const courseRef = collection(db, "courseSchedules");
+      const q = query(courseRef, where("name", "==", selected.name));
+      const snapshot = await getDocs(q);
+
+      if (!snapshot.empty) {
+        const docId = snapshot.docs[0].id;
+        await setDoc(doc(db, "courseSchedules", docId), {
+          ...selected,
+          previousPrice: selected.previousPrice || 0,
+          currentPrice: selected.currentPrice || 0,
+        }, { merge: true });
+        alert(`Updated: ${selected.name}`);
+      } else {
+        await setDoc(doc(courseRef), selected);
+        alert(`Saved new: ${selected.name}`);
+      }
+    } catch (err) {
+      console.error("Save failed:", err);
+      alert("❌ Failed to save course schedule!");
+    }
+  };
+
+  const handleCourseChange = (e) => {
+    setNewCourse({ ...newCourse, [e.target.name]: e.target.value });
+  };
+
+  const handleSaveCourse = async () => {
+    if (Object.values(newCourse).some((val) => val === "")) {
+      alert("Please fill all fields!");
       return;
     }
-  
-    const csvData = registeredUsers.map(user => ({
-      Name: user.UserName || "N/A",
-      Email: user.EmailID || "N/A",
-      "Phone Number": user.PhoneNumber || "N/A",
-      Course: user.Course || "N/A"
-    }));
-  
+
+    try {
+      if (editMode) {
+        await setDoc(doc(db, "udemyCourses", editMode), newCourse, { merge: true });
+        setUdemyCourses((prev) =>
+          prev.map((c) => (c.id === editMode ? { id: editMode, ...newCourse } : c))
+        );
+        setEditMode(null);
+        alert("✅ Course updated!");
+      } else {
+        const newDoc = doc(collection(db, "udemyCourses"));
+        await setDoc(newDoc, newCourse);
+        setUdemyCourses([...udemyCourses, { id: newDoc.id, ...newCourse }]);
+        alert("✅ Course added!");
+      }
+
+      setNewCourse({
+        id: "",
+        title: "",
+        instructor: "",
+        cost: "",
+        image: "",
+        link: "",
+        rating: "",
+        topic: "",
+      });
+    } catch (err) {
+      console.error("Error saving course:", err);
+      alert("❌ Error saving course!");
+    }
+  };
+
+  const handleDeleteCourse = async (id) => {
+    try {
+      await deleteDoc(doc(db, "udemyCourses", id));
+      setUdemyCourses(udemyCourses.filter((course) => course.id !== id));
+      alert("✅ Course deleted!");
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("❌ Delete failed!");
+    }
+  };
+
+  const handleEditCourse = (course) => {
+    setNewCourse(course);
+    setEditMode(course.id);
+  };
+
+  const filteredUsers = registeredUsers.filter((user) =>
+    (user.UserName || "").toLowerCase().includes(filterQueries.name.toLowerCase()) &&
+    (user.EmailID || "").toLowerCase().includes(filterQueries.email.toLowerCase()) &&
+    (user.PhoneNumber || "").toLowerCase().includes(filterQueries.phoneNumber.toLowerCase()) &&
+    (user.Course || "").toLowerCase().includes(filterQueries.course.toLowerCase())
+  );
+
+  const csvData = filteredUsers.map((user) => ({
+    Name: user.UserName || "N/A",
+    Email: user.EmailID || "N/A",
+    "Phone Number": user.PhoneNumber || "N/A",
+    Course: user.Course || "N/A",
+    Country: user.Country || "N/A",
+  }));
+
+  const downloadCSV = () => {
     const csv = Papa.unparse(csvData);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    
     const link = document.createElement("a");
-    link.setAttribute("href", url);
+    link.href = URL.createObjectURL(blob);
     link.setAttribute("download", "registered_users.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
-  
 
-
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
-  });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [registeredUsers, setRegisteredUsers] = useState([]); // State to store registered users
-
-  // State for storing date and time values per course
-  const [courseSchedules, setCourseSchedules] = useState([
-    { 
-      name: "Data Engineering", 
-      date: "2025-03-02", 
-      time: "10:00", 
-      date2: "2025-03-02 10:00 AM GMT+5:30",
-      dateString: "March 2, 2025 10:00 AM GMT+5:30"
-    },
-    { 
-      name: "Snowflake", 
-      date: "2025-03-02", 
-      time: "10:00", 
-      date2: "2025-03-02 10:00 AM GMT+5:30",
-      dateString: "March 2, 2025 10:00 AM GMT+5:30"
-    },
-    { 
-      name: "F.E. Civil", 
-      date: "2025-03-02", 
-      time: "10:00", 
-      date2: "2025-03-02 10:00 AM GMT+5:30",
-      dateString: "March 2, 2025 10:00 AM GMT+5:30"
-    },
-    { 
-      name: "English Speaking", 
-      date: "2025-03-02", 
-      time: "10:00", 
-      date2: "2025-03-02 10:00 AM GMT+5:30",
-      dateString: "March 2, 2025 10:00 AM GMT+5:30"
-    },
-  ]);
-
-  // Fetch registered users from Firestore
-  useEffect(() => {
-    const fetchRegisteredUsers = async () => {
-      try {
-        const usersCollection = collection(db, "formSubmissions");
-        const querySnapshot = await getDocs(usersCollection);
-
-        const usersList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setRegisteredUsers(usersList);
-      } catch (error) {
-        console.error("Error fetching registered users:", error);
-      }
-    };
-
-    fetchRegisteredUsers();
-  }, []);
-
-  // Handle input changes for date & time pickers
-  const handleScheduleChange = (index, field, value) => {
-    const updatedSchedules = [...courseSchedules];
-    updatedSchedules[index][field] = value;
-    setCourseSchedules(updatedSchedules);
-  };
-
-  // Handle save button click - Save Data to Firestore
-  const handleSave = async (index) => {
-    try {
-      const selectedCourse = courseSchedules[index];
-      const courseCollectionRef = collection(db, "courseSchedules");
-  
-      // Query Firestore to check if this course already exists
-      const q = query(courseCollectionRef, where("name", "==", selectedCourse.name));
-      const querySnapshot = await getDocs(q);
-  
-      if (!querySnapshot.empty) {
-        // If course exists, get the document ID and update it
-        const docId = querySnapshot.docs[0].id;
-        const courseDocRef = doc(db, "courseSchedules", docId);
-  
-        await setDoc(
-          courseDocRef,
-          {
-            name: selectedCourse.name,
-            date: selectedCourse.date,
-            time: selectedCourse.time,
-            date2: selectedCourse.date2,
-            dateString: selectedCourse.dateString,
-            previousPrice: selectedCourse.previousPrice || 0,
-            currentPrice: selectedCourse.currentPrice || 0,
-          },
-          { merge: true }
-        );
-  
-        alert(`Updated: ${selectedCourse.name} - ${selectedCourse.date} at ${selectedCourse.time}`);
-      } else {
-        // If course doesn't exist, create a new document
-        const newDocRef = doc(courseCollectionRef);
-        await setDoc(newDocRef, {
-          name: selectedCourse.name,
-          date: selectedCourse.date,
-          time: selectedCourse.time,
-          date2: selectedCourse.date2,
-          dateString: selectedCourse.dateString,
-        });
-  
-        alert(`Saved: ${selectedCourse.name} - ${selectedCourse.date} at ${selectedCourse.time}`);
-      }
-    } catch (error) {
-      console.error("Error saving data:", error);
-      alert("Failed to save data. Please try again.");
-    }
-  };
-
-  // Handle login
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setIsLoggingIn(true);
-
-    setTimeout(() => {
-      setIsLoggingIn(false);
-      setIsLoggedIn(true); // Set login state to true
-    }, 1500);
-  };
-
-  const [udemyCourses, setUdemyCourses] = useState([]);
-const [newCourse, setNewCourse] = useState({
-  id: "",
-  title: "",
-  instructor: "",
-  cost: "",
-  image: "",
-  link: "",
-  rating: "",
-  topic: "",
-});
-const [editMode, setEditMode] = useState(null); // Track editing course ID
-
-// Fetch Udemy Courses
-useEffect(() => {
-  const fetchUdemyCourses = async () => {
-    try {
-      const coursesCollection = collection(db, "udemyCourses");
-      const querySnapshot = await getDocs(coursesCollection);
-
-      const coursesList = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      setUdemyCourses(coursesList);
-    } catch (error) {
-      console.error("Error fetching Udemy courses:", error);
-    }
-  };
-
-  fetchUdemyCourses();
-}, []);
-
-// Handle Input Changes
-const handleCourseChange = (e) => {
-  setNewCourse({ ...newCourse, [e.target.name]: e.target.value });
-};
-
-// Add or Update Course
-const handleSaveCourse = async () => {
-  if (!newCourse.id || !newCourse.title || !newCourse.instructor || !newCourse.cost || !newCourse.image || !newCourse.link || !newCourse.rating || !newCourse.topic) {
-    alert("Please fill all fields!");
-    return;
-  }
-
-  try {
-    if (editMode) {
-      // Update existing course
-      const courseDocRef = doc(db, "udemyCourses", editMode.toString());
-      await setDoc(courseDocRef, newCourse, { merge: true });
-
-      setUdemyCourses(udemyCourses.map(course => course.id === editMode ? { id: editMode, ...newCourse } : course));
-      setEditMode(null);
-      alert("✅ Course updated successfully!");
-    } else {
-      // Add new course
-      const newCourseRef = doc(collection(db, "udemyCourses"));
-      await setDoc(newCourseRef, newCourse);
-
-      setUdemyCourses([...udemyCourses, { id: newCourseRef.id, ...newCourse }]);
-      alert("✅ Course added successfully!");
-    }
-
-    setNewCourse({ id: "", title: "", instructor: "", cost: "", image: "", link: "", rating: "", topic: "" });
-  } catch (error) {
-    console.error("Error saving course:", error);
-    alert("❌ Failed to save course!");
-  }
-};
-
-// Delete Course
-
-
-const handleDeleteCourse = async (id) => {
-  try {
-    await deleteDoc(doc(db, "udemyCourses", id));
-    setUdemyCourses(udemyCourses.filter(course => course.id !== id));
-    alert("✅ Course deleted successfully!");
-  } catch (error) {
-    console.error("Error deleting course:", error);
-    alert("❌ Failed to delete course!");
-  }
-};
-
-
-// Edit Course
-const handleEditCourse = (course) => {
-  setNewCourse(course);
-  setEditMode(course.id);
-};
 
 
   return (
@@ -362,31 +325,73 @@ const handleEditCourse = (course) => {
         style={{ maxHeight: "300px", overflowY: "auto", width: "100%" }}
       >
         <table className="table table-bordered table-sm text-center">
-          <thead className="table-dark">
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-              <th>Course</th>
-            </tr>
-          </thead>
-          <tbody>
-            {registeredUsers.length > 0 ? (
-              registeredUsers.map((user, index) => (
-                <tr key={index}>
-                  <td>{user.UserName || "N/A"}</td>
-                  <td>{user.EmailID || "N/A"}</td>
-                  <td>{user.PhoneNumber || "N/A"}</td>
-                  <td>{user.Course || "N/A"}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4">No registered users found</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+  <thead className="table-dark">
+    <tr>
+      <th>
+        Name
+        <input
+          type="search"
+          className="form-control form-control-sm mt-1"
+          placeholder="Search by name"
+          value={filterQueries.name}
+          onChange={(e) => setFilterQueries({ ...filterQueries, name: e.target.value })}
+        />
+      </th>
+      <th>
+        Email
+        <input
+          type="search"
+          className="form-control form-control-sm mt-1"
+          placeholder="Search by email"
+          value={filterQueries.email}
+          onChange={(e) => setFilterQueries({ ...filterQueries, email: e.target.value })}
+        />
+      </th>
+      <th>
+        Phone Number
+        <input
+          type="search"
+          className="form-control form-control-sm mt-1"
+          placeholder="Search by phone number"
+          value={filterQueries.phoneNumber}
+          onChange={(e) => setFilterQueries({ ...filterQueries, phoneNumber: e.target.value })}
+        />
+      </th>
+      <th>
+        Course
+        <input
+          type="search"
+          className="form-control form-control-sm mt-1"
+          placeholder="Search by course"
+          value={filterQueries.course}
+          onChange={(e) => setFilterQueries({ ...filterQueries, course: e.target.value })}
+        />
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {registeredUsers
+      .filter((user) => {
+        return (
+          (user.UserName || "").toLowerCase().includes(filterQueries.name.toLowerCase()) &&
+          (user.EmailID || "").toLowerCase().includes(filterQueries.email.toLowerCase()) &&
+          (user.PhoneNumber || "").toLowerCase().includes(filterQueries.phoneNumber.toLowerCase()) &&
+          (user.Course || "").toLowerCase().includes(filterQueries.course.toLowerCase())
+        );
+      })
+      .map((user, index) => (
+        <tr key={index}>
+          <td>{user.UserName || "N/A"}</td>
+          <td>{user.EmailID || "N/A"}</td>
+          <td>{user.PhoneNumber || "N/A"}</td>
+          <td>{user.Course || "N/A"}</td>
+        </tr>
+      ))}
+  </tbody>
+</table>
+
+
       </div>
     </div>
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../firebase"; // Import Firestore instance from firebase.js
-import { addDoc, collection } from "firebase/firestore"; // Firestore functions
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+
 
 function RegistrationForm() {
   const [formData, setFormData] = useState({
@@ -25,17 +26,15 @@ function RegistrationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+  
     try {
-      // Save form data to Firestore
-      await addDoc(collection(db, "formSubmissions"), formData);
-
-      setShowToast(true); // Show toast on success
-
-      // Clear form fields
+      await addDoc(collection(db, "formSubmissions"), {
+        ...formData,
+        createdAt: serverTimestamp(), // <-- Timestamp added here
+      });
+  
+      setShowToast(true);
       setFormData({ UserName: "", EmailID: "", PhoneNumber: "", Course: "" });
-
-      // Automatically hide toast after 5 seconds
       setTimeout(() => setShowToast(false), 5000);
     } catch (error) {
       console.error("Error saving form data:", error);
@@ -44,6 +43,7 @@ function RegistrationForm() {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div className="right-section col-md-5 bg-light shadow rounded p-4 mx-auto">

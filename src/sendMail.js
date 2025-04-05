@@ -18,8 +18,8 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: 'atchyut@edufulness.com',  
-        pass: 'Atchyut@1987',  
+        user: 'learning@edufulness.in',  
+        pass: 'Edufulness@2023',  
     },
 });
 
@@ -82,7 +82,7 @@ const logEmail = async (recipient, success, error = null) => {
 const sendEmail = async (recipient) => {
     const { email, name } = recipient;
 
-    const subject = `Azure Data Engineering - Demo Session  `;
+    const subject = `Azure Data Engineering - Day 2 Recording & Regular Class Info  `;
 
     const htmlBody = `
    <div style="font-family: 'Arial', sans-serif; line-height: 1.6; color: #333;">
@@ -91,14 +91,16 @@ const sendEmail = async (recipient) => {
             <img src="https://edufulness.in/logo.jpg" alt="Edufulness Logo" style="max-width: 200px;">
         </header>
         <header style="background-color: #0078d7; color: #fff; padding: 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px;">🚀 Azure Data Engineering - Demo Recording & Regular Classes</h1>
+            <h1 style="margin: 0; font-size: 24px;">🚀 Azure Data Engineering - 2 Days Recordings & Regular Class Info</h1>
         </header>
 
         <main style="padding: 20px;">
             <p>Hi,</p>
-            <p>Thank you for attending the <strong>Azure Data Engineering</strong> demo session! 🎉</p>
+            <p>Thank you for attending the <strong>Azure Data Engineering</strong> Day 2 session! 🎉</p>
             
-            <p>📌 <strong>Demo Recording:</strong> Watch here 👉 <a href="https://youtu.be/c5CdeIv6Cjo" target="_blank" style="color: #0078d7; text-decoration: none;">YouTube </a></p>
+            <p>🎥 <strong>Day 2 (01-APR-2025):</strong> <a href="https://youtu.be/4g7cMQQ-jKU" target="_blank" style="color: #0078d7; text-decoration: none;">Watch Here</a></p>
+            <p>🎥 <strong>Day 1 (01-APR-2025):</strong> <a href="https://youtu.be/W3301ev5QDg" target="_blank" style="color: #0078d7; text-decoration: none;">Watch Here</a></p>
+            <p>📌 <strong>Demo (31-MAR-2025):</strong> <a href="https://youtu.be/c5CdeIv6Cjo" target="_blank" style="color: #0078d7; text-decoration: none;">Watch Here</a></p>
             
             <p>🚀 <strong>Regular Classes Start from April 1, 2025!</strong></p>
             <p>📅 <strong>Schedule:</strong> Monday to Friday</p>
@@ -158,7 +160,7 @@ const sendEmail = async (recipient) => {
 `;
 
     const mailOptions = {
-        from: '"Edufulness" <atchyut@edufulness.com>',
+        from: '"Edufulness" <learning@edufulness.in>',
         to: email,
         subject: subject,
         html: htmlBody,
