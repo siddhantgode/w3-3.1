@@ -131,12 +131,12 @@ export default function Navbar(props) {
     )}
   </Box>
 
-  {/* Login Button (Moved to the Right) */}
+  {/* Login Button (Moved to the Right)
   <Box sx={{ marginLeft: 'auto' }}>
     <Button variant="contained" color="primary" onClick={() => navigate('/admin')}>
       Login
     </Button>
-  </Box>
+  </Box> */}
 </Toolbar>
 
       </AppBar>

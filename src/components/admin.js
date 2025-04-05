@@ -312,11 +312,11 @@ function LoginPage() {
             
     {/* Registered Users Section */}
     <div className="mt-5 p-3 bg-info text-white rounded d-flex justify-content-between align-items-center">
-      <span>Registered Users</span>
-      <button className="btn btn-light btn-sm" onClick={downloadCSV}>
-        Download CSV
-      </button>
-    </div>
+  <span>Registered Users</span>
+  <button className="btn btn-light btn-sm" onClick={downloadCSV}>
+    Download CSV
+  </button>
+</div>
 
     {/* Scrollable Table */}
     <div className="d-flex justify-content-center">
