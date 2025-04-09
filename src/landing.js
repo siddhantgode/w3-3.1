@@ -22,6 +22,17 @@ const EdufulnessLanding = () => {
     { title: 'Cloud Computing', image: '/images/carousel5.jpeg' }
   ];
 
+  const partnerImages = [
+    "/images/paypal.png",
+    "/images/chargebee.png",
+    "/images/flikart.png",
+    "/images/freshwork.png",
+    "/images/juspay.png",
+    "/images/scapic.png",
+    "/images/orcaso.png",
+    "/images/zoho.png",
+  ];
+
   const visibleCourses = 4;
 
   useEffect(() => {
@@ -44,6 +55,15 @@ const EdufulnessLanding = () => {
     visibleSlice.length < visibleCourses
       ? [...visibleSlice, ...courses.slice(0, visibleCourses - visibleSlice.length)]
       : visibleSlice;
+
+      const [partnerIndex, setPartnerIndex] = useState(0);
+
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setPartnerIndex((prevIndex) => (prevIndex + 1) % partnerImages.length);
+        }, 2500); // Change every 2.5s
+        return () => clearInterval(interval);
+      }, []);
 
   return (
     <div className="font-sans">
@@ -141,20 +161,23 @@ const EdufulnessLanding = () => {
 
         {/* Partners */}
         <section className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-8">Our Partners</h2>
-          <div className="overflow-hidden relative w-full">
-            <div className="flex gap-6 animate-scroll-partners w-max">
-              <img src="/images/paypal.png" alt="Partner 1" className="w-24" />
-              <img src="/images/chargebee.png" alt="Partner 2" className="w-24" />
-              <img src="/images/flikart.png" alt="Partner 3" className="w-24" />
-              <img src="/images/freshwork.png" alt="Partner 4" className="w-24" />
-              <img src="/images/juspay.png" alt="Partner 5" className="w-24" />
-              <img src="/images/scapic.png" alt="Partner 6" className="w-24" />
-              <img src="/images/orcaso.png" alt="Partner 7" className="w-24" />
-              <img src="/images/zoho.png" alt="Partner 8" className="w-24" />
-            </div>
-          </div>
-        </section>
+  <h2 className="text-3xl font-bold mb-8">Our Partners</h2>
+  <div className="overflow-hidden relative w-full h-[120px]">
+    <div className="flex w-max animate-scroll-partners gap-8 items-center">
+      {/* Repeat logos twice for seamless looping */}
+      {partnerImages.concat(partnerImages).map((src, i) => (
+        <img
+          key={i}
+          src={src}
+          alt={`Partner ${i + 1}`}
+          className="h-[105px] object-contain"
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+
 
         {/* Mission & Vision */}
         <section className="text-center mb-16">
