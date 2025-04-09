@@ -118,7 +118,8 @@ export default function Navbar(props) {
           {/* Trainings Button */}
           <Button color="inherit" onClick={handleTrainingsMenuOpen} disableRipple sx={{ position: 'relative', '&:hover::after': { content: '""', position: 'absolute', left: 0, bottom: '-2px', width: '100%', height: '2px', backgroundColor: '#233c7b', } }}> Trainings </Button>
           <Menu anchorEl={anchorElTrainings} open={Boolean(anchorElTrainings)} onClose={handleTrainingsMenuClose}>
-            <MenuItem onClick={() => { navigate('/'); handleTrainingsMenuClose(); }}>DATA ENG.</MenuItem>
+          <MenuItem onClick={() => { navigate('/dataeng'); handleTrainingsMenuClose(); }}>DATA ENG.</MenuItem>
+
             <MenuItem onClick={handleFECivilClick}>FE Civil</MenuItem>
             <MenuItem onClick={handleSnowflakeClick}>SNOWFLAKE</MenuItem>
             <MenuItem onClick={handleEngClick}>ENGLISH SPEAKING</MenuItem>
@@ -169,7 +170,7 @@ export default function Navbar(props) {
           </ListItem>
           <Collapse in={openTrainings} timeout="auto" unmountOnExit>
   <List component="div" disablePadding>
-  <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/'); handleDrawerToggle(); }}>
+  <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/dataeng'); handleDrawerToggle(); }}>
       <ListItemText primary="DATA ENG." />
     </ListItem>
     <ListItem button sx={{ pl: 4 }} onClick={() => { navigate('/fe_civil'); handleDrawerToggle(); }}>

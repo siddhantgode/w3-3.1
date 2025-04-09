@@ -16,6 +16,7 @@ import CustomAccordion from './accordian';
 import SimpleAccordion from './accordian2';
 import CourseGallery from './courses/udemy';
 import LoginPage from './components/admin';
+import EdufulnessLanding from './landing';
 
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -24,6 +25,7 @@ import Home from './Home';
 import Banner2 from './Banner copy 2';
 import EngCourse from './Banner copy 3';
 import SqlCourse from './Banner copy 4';
+import Banner from './Banner';
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
             <main>
               <Routes>
                 <Route path="/" element={<Home />}/>
+                <Route path="/landing" element={<EdufulnessLanding />}/>
+                <Route path="/dataeng" element={<Banner />}/>
                 <Route path="/mainsection" element={<MainSection />}/>
                 <Route path="/exercise" element={<Exercise />}/>
                 <Route path="/sql" element={<MainSection />}/>
