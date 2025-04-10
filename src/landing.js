@@ -128,51 +128,56 @@ const EdufulnessLanding = () => {
 
 
         {/* Featured Courses */}
-        <section className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-8">Featured Courses</h2>
-          <div className="relative flex items-center justify-center">
-            <button
-              onClick={handlePrev}
-              className="absolute -left-24 z-10 bg-white p-2 shadow rounded-full hover:bg-gray-100"
-              aria-label="Previous Courses"
-            >
-              <ChevronLeft />
-            </button>
-            <div className="mx-auto overflow-hidden w-full">
-              <div className="flex justify-center gap-6 transition-all duration-300">
-                {adjustedSlice.map((course, i) => (
-                  <div
-                    key={i}
-                    className="w-72 h-[280px] bg-white overflow-hidden border border-gray-300 shadow-[rgba(0,0,0,0.1)_-6px_-6px_12px] transform transition-transform duration-300 hover:scale-105 hover:shadow-[rgba(0,123,255,0.3)_-6px_-6px_18px]"
-                  >
-                    <img
-                      src={course.image}
-                      alt={course.title}
-                      className="w-full h-[65%] object-cover"
-                    />
-                    <div className="p-3 h-[35%] flex flex-col justify-center">
-                      <h3
-                        className="text-sm text-left font-bold mb-1"
-                        style={{ fontFamily: 'Montserrat, sans-serif' }}
-                      >
-                        {course.title}
-                      </h3>
-                      <p className="text-left text-sm">Price: ₹7,999</p>
-                    </div>
-                  </div>
-                ))}
+        // Featured Courses
+        // Featured Courses
+<section className="text-center mb-16">
+  <h2 className="text-3xl font-bold mb-8">Featured Courses</h2>
+  <div className="relative flex items-center justify-center">
+    {/* Left Navigation Button */}
+    <button
+      onClick={handlePrev}
+      className="absolute left-2 md:-left-24 z-10 bg-white p-2 shadow rounded-full hover:bg-gray-100"
+      aria-label="Previous Courses"
+    >
+      <ChevronLeft />
+    </button>
+
+    {/* Courses Carousel */}
+    <div className="container mx-auto">
+      <div className="row justify-content-center">
+        {adjustedSlice.map((course, i) => (
+          <div key={i} className="col-12 col-md-3">
+            <div className="h-[280px] bg-white overflow-hidden border border-gray-300 shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+              <img
+                src={course.image}
+                alt={course.title}
+                className="w-full h-[65%] object-cover"
+              />
+              <div className="p-3 h-[35%] flex flex-col justify-center">
+                <h3
+                  className="text-sm text-left font-bold mb-1"
+                  style={{ fontFamily: 'Montserrat, sans-serif' }}
+                >
+                  {course.title}
+                </h3>
+                <p className="text-left text-sm">Price: ₹7,999</p>
               </div>
             </div>
-            <button
-              onClick={handleNext}
-              className="absolute -right-24 z-10 bg-white p-2 shadow rounded-full hover:bg-gray-100"
-              aria-label="Next Courses"
-            >
-              <ChevronRight />
-            </button>
           </div>
-        </section>
+        ))}
+      </div>
+    </div>
 
+    {/* Right Navigation Button */}
+    <button
+      onClick={handleNext}
+      className="absolute right-2 md:-right-24 z-10 bg-white p-2 shadow rounded-full hover:bg-gray-100"
+      aria-label="Next Courses"
+    >
+      <ChevronRight />
+    </button>
+  </div>
+</section>
         {/* Partners */}
         <section className="text-center mb-16">
   <h2 className="text-3xl font-bold mb-8">Our Partners</h2>
