@@ -18,8 +18,8 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: 'learning@edufulness.in',  
-        pass: 'Edufulness@2023',  
+        user: 'atchyut@edufulness.com',  
+        pass: 'Atchyut@1987',  
     },
 });
 
@@ -80,101 +80,130 @@ const logEmail = async (recipient, success, error = null) => {
 
 // **Send an Email**
 const sendEmail = async (recipient) => {
-    const { email, name } = recipient;
+  const { email, name } = recipient;
 
-    const subject = `Azure Data Engineering - Day 2 Recording & Regular Class Info  `;
+  const subject = `Azure Data Engineering - Day 1,2 Recordings & Regular Class Info 🌟`;
 
-    const htmlBody = `
-   <div style="font-family: 'Arial', sans-serif; line-height: 1.6; color: #333;">
+  const htmlBody = `
+  <div style="font-family: 'Arial', sans-serif; line-height: 1.6; color: #333;">
     <div style="max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 5px; padding: 30px;">
-        <header style="text-align: center; padding-bottom: 20px;">
-            <img src="https://edufulness.in/logo.jpg" alt="Edufulness Logo" style="max-width: 200px;">
-        </header>
-        <header style="background-color: #0078d7; color: #fff; padding: 20px; text-align: center;">
-            <h1 style="margin: 0; font-size: 24px;">🚀 Azure Data Engineering - 2 Days Recordings & Regular Class Info</h1>
-        </header>
+      <header style="text-align: center; padding-bottom: 20px;">
+        <img src="https://edufulness.in/logo.jpg" alt="Edufulness Logo" style="max-width: 200px;">
+      </header>
 
-        <main style="padding: 20px;">
-            <p>Hi,</p>
-            <p>Thank you for attending the <strong>Azure Data Engineering</strong> Day 2 session! 🎉</p>
-            
-            <p>🎥 <strong>Day 2 (01-APR-2025):</strong> <a href="https://youtu.be/4g7cMQQ-jKU" target="_blank" style="color: #0078d7; text-decoration: none;">Watch Here</a></p>
-            <p>🎥 <strong>Day 1 (01-APR-2025):</strong> <a href="https://youtu.be/W3301ev5QDg" target="_blank" style="color: #0078d7; text-decoration: none;">Watch Here</a></p>
-            <p>📌 <strong>Demo (31-MAR-2025):</strong> <a href="https://youtu.be/c5CdeIv6Cjo" target="_blank" style="color: #0078d7; text-decoration: none;">Watch Here</a></p>
-            
-            <p>🚀 <strong>Regular Classes Start from April 1, 2025!</strong></p>
-            <p>📅 <strong>Schedule:</strong> Monday to Friday</p>
-            <p>⏰ <strong>Time:</strong> 08:30 PM - 09:30 PM IST</p>
-            <p>🔗 <strong>Zoom Link:</strong> <a href="https://us06web.zoom.us/meeting/register/3J7LKcXqQqa-bzQ7_pj8hA" target="_blank" style="color: #0078d7; text-decoration: none;">Register Here</a></p>
-            
-            <p><strong>💡 Topics Covered:</strong></p>
-            <ul>
-                <li>Azure SQL</li>
-                <li>Data Factory</li>
-                <li>Synapse</li>
-                <li>Databricks - PySpark</li>
-                <li>Microsoft Fabric</li>
-                <li>Blob Storage</li>
-                <li>Data Lake</li>
-                <li>Delta Lake</li>
-                <li>...& more!</li>
-            </ul>
-            
-            <p>💬 <strong>Join WhatsApp Community:</strong> <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">Join Now</a></p>
-            <p>📺 <strong>Watch Free Tutorials:</strong> <a href="https://www.youtube.com/@EduFulnessEFN" target="_blank" style="color: #0078d7; text-decoration: none;">Subscribe Here</a></p>
-            
-            <p>Looking forward to seeing you in class! 😊</p>
-            
-            <p>📞 <strong>Need help?</strong> WhatsApp: 9567034641 | Call: 9392955424</p>
-            
-            <p><strong>Atchyut Kumar</strong><br>
-            <strong>Azure Data Engineering Instructor | Edufulness</strong></p>
+      <header style="background-color: #0078d7; color: #fff; padding: 20px; text-align: center;">
+        <h1 style="margin: 0; font-size: 22px;">Azure Data Engineering - Day 1,2 Recordings & Regular Class Info 🌟</h1>
+      </header>
 
+      <main style="padding: 20px;">
+        <p>Hi ${name || ''},</p>
+        <p>Thank you for attending the <strong>Azure Data Engineering</strong> Day 1 & 2 sessions! 🎉</p>
 
-            <div style="margin-top: 30px; text-align: center;">
-            <table align="center" style="border-collapse: collapse;">
-              <tr>
-                <td style="padding: 10px; text-align: center;">
-                  <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" rel="noopener noreferrer">
-                    <img src="https://img.icons8.com/?size=100&id=7OeRNqg6S7Vf&format=png&color=00BE98" alt="WhatsApp Icon" style="width: 40px; height: 40px;">
-                  </a>
-                  <div style="font-size: 14px; font-weight: bold; margin-top: 5px; color: #00BE98;">Join Our Group</div>
-                </td>
-                <td style="padding: 10px; text-align: center;">
-                  <a href="https://www.youtube.com/@EdufulnessEFN" target="_blank" rel="noopener noreferrer">
-                    <img src="https://img.freepik.com/premium-vector/red-youtube-logo-social-media-logo_197792-1803.jpg?w=360" alt="YouTube Icon" style="width: 40px; height: 40px;">
-                  </a>
-                  <div style="font-size: 14px; font-weight: bold; margin-top: 5px; color: #FF0000;">Subscribe</div>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </main>
+        <p><strong>🎥 Day 2 Recording (16-APR-2025):</strong><br>
+          <a href="https://youtu.be/4nrzOoHLzCs" target="_blank" style="color: #0078d7; text-decoration: none;">
+            Watch Day 2 Session
+          </a>
+        </p>
 
-        <footer style="background-color: #f8f8f8; color: #666; text-align: center; padding: 10px; font-size: 12px;">
-            © 2025 Edufulness. All rights reserved.
-        </footer>
+        <p><strong>🎥 Day 1 Recording (15-APR-2025):</strong><br>
+          <a href="https://youtu.be/kfWos13S1m4" target="_blank" style="color: #0078d7; text-decoration: none;">
+            Watch Day 1 Session
+          </a>
+        </p>
+
+        <p><strong>📌 Demo Recording:</strong><br>
+          <a href="https://youtu.be/mWCOS3WlbT4" target="_blank" style="color: #0078d7; text-decoration: none;">
+            Watch Demo Session
+          </a>
+        </p>
+
+        <p><strong>🚀 Regular Classes Started:</strong> April 15, 2025<br>
+           <strong>📅 Schedule:</strong> Monday to Friday<br>
+           <strong>⏰ Time:</strong> 08:30 PM - 09:30 PM IST</p>
+
+        <p><strong>🔗 Live Class Zoom Link:</strong><br>
+          <a href="https://us06web.zoom.us/meeting/register/K8KwpM8QS_G41ZasRso_qA" target="_blank" style="color: #0078d7; text-decoration: none;">
+            Join Live Classes on Zoom
+          </a>
+        </p>
+
+        <p><strong>💡 Topics Covered:</strong></p>
+        <ul>
+          <li>Azure SQL</li>
+          <li>Data Factory</li>
+          <li>Synapse</li>
+          <li>Databricks - PySpark</li>
+          <li>Microsoft Fabric</li>
+          <li>Blob, DataLake, DeltaLake & more!</li>
+        </ul>
+
+        <p><strong>💬 Join WhatsApp Community:</strong><br>
+          <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" style="color: #0078d7; text-decoration: none;">
+            Join Our WhatsApp Group
+          </a>
+        </p>
+
+        <p><strong>📺 Watch Free Tutorials:</strong><br>
+          <a href="https://www.youtube.com/@EduFulnessEFN" target="_blank" style="color: #0078d7; text-decoration: none;">
+            Visit Our YouTube Channel
+          </a>
+        </p>
+
+        <p>Looking forward to seeing you in class! 😊</p>
+
+        <p><strong>– Atchyut Kumar</strong><br>
+          📞 <strong>WhatsApp:</strong> <a href="tel:+919567034641" style="color: #0078d7; text-decoration: none;">9567034641</a><br>
+          📞 <strong>Call Only:</strong> <a href="tel:+919392955424" style="color: #0078d7; text-decoration: none;">9392955424</a><br>
+          📧 <strong>Instructor:</strong> Azure Data Engineering | Edufulness
+        </p>
+
+        <div style="margin-top: 30px; text-align: center;">
+          <table align="center" style="border-collapse: collapse;">
+            <tr>
+              <td style="padding: 10px; text-align: center;">
+                <a href="https://chat.whatsapp.com/FMSSEzJtCsyAdpaiJCjqQP" target="_blank" rel="noopener noreferrer">
+                  <img src="https://img.icons8.com/?size=100&id=7OeRNqg6S7Vf&format=png&color=00BE98" alt="WhatsApp Icon" style="width: 40px; height: 40px;">
+                </a>
+                <div style="font-size: 14px; font-weight: bold; margin-top: 5px; color: #00BE98;">Join Group</div>
+              </td>
+              <td style="padding: 10px; text-align: center;">
+                <a href="https://www.youtube.com/@EdufulnessEFN" target="_blank" rel="noopener noreferrer">
+                  <img src="https://img.freepik.com/premium-vector/red-youtube-logo-social-media-logo_197792-1803.jpg?w=360" alt="YouTube Icon" style="width: 40px; height: 40px;">
+                </a>
+                <div style="font-size: 14px; font-weight: bold; margin-top: 5px; color: #FF0000;">Subscribe</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </main>
+
+      <footer style="background-color: #f8f8f8; color: #666; text-align: center; padding: 10px; font-size: 12px;">
+        © 2025 Edufulness. All rights reserved.
+      </footer>
     </div>
-</div>
+  </div>
+  `;
 
-`;
+  const mailOptions = {
+      from: '"Edufulness" <atchyut@edufulness.com>',
+      to: email,
+      subject: subject,
+      html: htmlBody,
+  };
 
-    const mailOptions = {
-        from: '"Edufulness" <learning@edufulness.in>',
-        to: email,
-        subject: subject,
-        html: htmlBody,
-    };
-
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log(`✅ Email sent to: ${name} <${email}>`);
-        await logEmail(recipient, true);
-    } catch (error) {
-        console.error(`❌ Error sending email to ${name}:`, error);
-        await logEmail(recipient, false, error);
-    }
+  try {
+      await transporter.sendMail(mailOptions);
+      console.log(`✅ Email sent to: ${name} <${email}>`);
+      await logEmail(recipient, true);
+  } catch (error) {
+      console.error(`❌ Error sending email to ${name}:`, error);
+      await logEmail(recipient, false, error);
+  }
 };
+
+
+
+
 
 // **Send Emails in Batches of 5 with Progress Bar**
 const sendBulkEmails = async () => {
@@ -205,7 +234,7 @@ const sendBulkEmails = async () => {
 
         progressBar.increment(batch.length); // Update progress bar
         console.log(`⏳ Waiting 2 seconds before next batch...`);
-        await new Promise(resolve => setTimeout(resolve, 2000)); // Delay between batches
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Delay between batches
     }
 
     progressBar.stop(); // Stop progress bar

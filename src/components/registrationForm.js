@@ -1,68 +1,78 @@
-import React, { useState } from "react";
-import { db } from "../firebase"; // Import Firestore instance from firebase.js
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
-
-function RegistrationForm() {
+const RegistrationForm = ({ dateString, defaultCourse = "Data Eng.", isModal = false }) => {
   const [formData, setFormData] = useState({
     UserName: "",
     EmailID: "",
     PhoneNumber: "",
-    Course: "", // Added Course field
+    Course: defaultCourse,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showToast, setShowToast] = useState(false); // State for toast visibility
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
-  // Handle input changes
+  // Function to determine course based on URL
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    let courseFromUrl = defaultCourse; // Default to prop value if no match
+    if (pathname === "/snowflake") courseFromUrl = "Snowflake";
+    else if (pathname === "/dataeng") courseFromUrl = "Data Eng.";
+    else if (pathname === "/eng") courseFromUrl = "English Speaking";
+    else if (pathname === "/fe_civil") courseFromUrl = "FE Civil";
+
+    setFormData((prev) => ({ ...prev, Course: courseFromUrl }));
+  }, [defaultCourse]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+
     try {
       await addDoc(collection(db, "formSubmissions"), {
         ...formData,
-        createdAt: serverTimestamp(), // <-- Timestamp added here
+        createdAt: serverTimestamp(),
       });
-  
-      setShowToast(true);
-      setFormData({ UserName: "", EmailID: "", PhoneNumber: "", Course: "" });
-      setTimeout(() => setShowToast(false), 5000);
+      setToast({
+        show: true,
+        message: "Thank you for registering! Your details have been saved.",
+        type: "success",
+      });
+      setFormData({ UserName: "", EmailID: "", PhoneNumber: "", Course: formData.Course });
+      setTimeout(() => setToast({ show: false, message: "", type: "" }), 5000);
     } catch (error) {
-      console.error("Error saving form data:", error);
-      alert("An error occurred while saving the form data.");
+      console.error("Error:", error);
+      setToast({
+        show: true,
+        message: "Failed to submit form. Please try again.",
+        type: "error",
+      });
+      setTimeout(() => setToast({ show: false, message: "", type: "" }), 5000);
     } finally {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
-    <div className="right-section col-md-5 bg-light shadow rounded p-4 mx-auto">
-      {/* Form Heading */}
-      <h2 className="text-center mb-3">FILL THE FORM</h2>
-
-      {/* Live Class Alert */}
-      <h3 className="live-class-alert text-info text-center mb-4">
-        Live Online Classes <br />
-        
-      </h3>
-
-      {/* Form */}
-      <form onSubmit={handleSubmit}>
-        {/* Full Name Field */}
-        <div className="mb-3">
-          <label htmlFor="UserName" className="form-label">
-            Full Name
-          </label>
+    <div
+      className={`p-4 ${isModal ? "modal-form" : ""}`}
+      style={{
+        maxWidth: "350px",
+        margin: "0 auto",
+        border: "1px solid #ccc",
+        borderRadius: "0.5rem",
+        backgroundColor: "#fff",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <form onSubmit={handleSubmit} className="form-container">
+        <div className="mb-4">
+          <label htmlFor="UserName" className="form-label">Full Name</label>
           <input
             type="text"
             name="UserName"
@@ -74,12 +84,8 @@ function RegistrationForm() {
             required
           />
         </div>
-
-        {/* Email Address Field */}
-        <div className="mb-3">
-          <label htmlFor="EmailID" className="form-label">
-            Email Address
-          </label>
+        <div className="mb-4">
+          <label htmlFor="EmailID" className="form-label">Email Address</label>
           <input
             type="email"
             name="EmailID"
@@ -89,14 +95,14 @@ function RegistrationForm() {
             value={formData.EmailID}
             onChange={handleInputChange}
             required
+            aria-describedby="emailError"
           />
+          {formData.EmailID && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.EmailID) && (
+            <div id="emailError" className="text-danger">Invalid email format</div>
+          )}
         </div>
-
-        {/* Phone Number Field */}
-        <div className="mb-3">
-          <label htmlFor="PhoneNumber" className="form-label">
-            Phone Number
-          </label>
+        <div className="mb-4">
+          <label htmlFor="PhoneNumber" className="form-label">Phone Number</label>
           <input
             type="tel"
             name="PhoneNumber"
@@ -108,12 +114,8 @@ function RegistrationForm() {
             required
           />
         </div>
-
-        {/* Course Dropdown Field */}
-        <div className="mb-3">
-          <label htmlFor="Course" className="form-label">
-            Course
-          </label>
+        <div className="mb-4">
+          <label htmlFor="Course" className="form-label">Course</label>
           <select
             name="Course"
             className="form-control"
@@ -126,49 +128,33 @@ function RegistrationForm() {
             <option value="Data Eng.">Data Eng.</option>
             <option value="FE Civil">FE Civil</option>
             <option value="Snowflake">Snowflake</option>
+            <option value="English Speaking">English Speaking</option>
           </select>
         </div>
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="btn btn-primary w-100"
-          disabled={isSubmitting}
-        >
+        <button type="submit" className="btn btn-primary w-100 py-2" disabled={isSubmitting}>
           {isSubmitting ? "Submitting..." : "Enroll Now"}
         </button>
       </form>
-
-      {/* Toast Message */}
-      {showToast && (
+      {toast.show && (
         <div
-          className="toast show position-fixed bottom-0 end-0 m-3"
+          className={`toast show position-fixed bottom-0 end-0 m-3 ${toast.type === "error" ? "bg-danger text-white" : "bg-primary text-white"}`}
           role="alert"
           aria-live="assertive"
           aria-atomic="true"
-          style={{
-            minWidth: "250px", // Reduced width
-            fontSize: "1rem", // Default font size
-          }}
         >
-          <div className="toast-header bg-primary text-white">
-            {/* Toast Header with Blue Background */}
-            <strong className="me-auto">Success</strong>
+          <div className="toast-header">
+            <strong className="me-auto">{toast.type === "error" ? "Error" : "Success"}</strong>
             <button
               type="button"
               className="btn-close btn-close-white"
-              data-bs-dismiss="toast"
-              aria-label="Close"
-              onClick={() => setShowToast(false)}
+              onClick={() => setToast({ show: false, message: "", type: "" })}
             ></button>
           </div>
-          <div className="toast-body">
-            Thank you for registering with us! Your details have been saved successfully.
-          </div>
+          <div className="toast-body">{toast.message}</div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default RegistrationForm;

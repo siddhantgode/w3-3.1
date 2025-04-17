@@ -242,3 +242,28 @@ p {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.modal-form .form-container {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  max-width: 350px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-form .form-control {
+  border-color: #ced4da;
+}
+
+.modal-form .btn-primary {
+  margin-top: 1rem;
+}
+.modal-custom {
+  max-width: 350px; /* Adjust as needed */
+}
+
+.modal-dialog.modal-custom .modal-content {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}

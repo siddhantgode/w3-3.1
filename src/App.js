@@ -17,6 +17,7 @@ import SimpleAccordion from './accordian2';
 import CourseGallery from './courses/udemy';
 import LoginPage from './components/admin';
 import EdufulnessLanding from './landing';
+import RegistrationForm from './components/registrationForm';
 
 // Import Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -46,7 +47,7 @@ function App() {
                 <Route path="*" element={<h1>404 Not Found</h1>} />
                 <Route path="/fe_civil" element={<Banner1/>} />
                 <Route path="/course2" element={<SimpleAccordion/>} />
-                <Route path="/test" element={<CustomAccordion/>} />
+                <Route path="/test" element={<RegistrationForm/>} />
                 <Route path="/snowflake" element={<Banner2/>} />
                 <Route path="/eng" element={<EngCourse/>} />
                 <Route path="/sql_course" element={<SqlCourse/>} />

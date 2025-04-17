@@ -420,7 +420,7 @@ const SqlCourse = () => {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered modal-lg">
+        <div className="modal-dialog modal-dialog-centered modal-sm"> {/* Changed to modal-sm */}
           {/* Added 'modal-lg' for a larger modal */}
           <div className="modal-content">
             <div className="modal-header">
@@ -436,7 +436,7 @@ const SqlCourse = () => {
             </div>
             <div className="modal-body">
               {/* RegistrationForm Component */}
-              <RegistrationForm />
+              <RegistrationForm isModal={true} dateString="02-March-2025 10:00AM IST" /> {/* Added isModal prop */}
             </div>
             <div className="modal-footer">
               <button
@@ -684,8 +684,8 @@ const SqlCourse = () => {
 </Row>
       </div>
     </section>
-{/* Take advantage of current price end*/}
- {/*Master Data Engineering section start */}
+{/* Take advantage of current price end*/
+ /*Master Data Engineering section start */}
 
 <section style={{ 
       backgroundColor: '#101743',

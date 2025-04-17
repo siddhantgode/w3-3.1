@@ -120,71 +120,21 @@ const Banner = () => {
             </div>
 
             {/* Right Section */}
-            <div className="right-section col-md-5 bg-light shadow rounded p-4 mx-auto">
-              {/* Form Heading */}
-              <h2 className="text-center mb-3">FILL THE FORM</h2>
-              {/* Live Class Alert */}
-              <h3 className="live-class-alert text-info text-center mb-4">
-                Live Online Classes <br />
-                {liveClassInfo.dateString} <br />
-                (Sunday)
-              </h3>
-              {/* Form */}
-              <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="UserName" className="form-label">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="UserName"
-                  className="form-control"
-                  id="UserName"
-                  placeholder="Enter your full name"
-                  value={formData.UserName}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="EmailID" className="form-label">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  name="EmailID"
-                  className="form-control"
-                  id="EmailID"
-                  placeholder="Enter your email"
-                  value={formData.EmailID}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="PhoneNumber" className="form-label">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  name="PhoneNumber"
-                  className="form-control"
-                  id="PhoneNumber"
-                  placeholder="Enter your phone number"
-                  value={formData.PhoneNumber}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-primary w-100"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Submitting..." : "Enroll Now"}
-              </button>
-            </form>
-            </div>
+            <div className="right-section col-md-5 d-flex justify-content-center">
+  <div className="bg-light shadow rounded p-4 w-100" style={{ maxWidth: "600px" }}>
+    {/* Form Heading */}
+    <h2 className="text-center mb-3">FILL THE FORM</h2>
+    {/* Live Class Alert */}
+    <h3 className="live-class-alert text-info text-center mb-4">
+      Live Online Classes <br />
+      {liveClassInfo.dateString} <br />
+      (Sunday)
+    </h3>
+    {/* Form */}
+    <RegistrationForm />
+  </div>
+</div>
+
           </div>
         </div>
       </div>
